@@ -8,11 +8,11 @@ function Login() {
                 <form>
               <h3>Sign In</h3>
               <div className="mb-3">
-                <label>Email address</label>
+                <label>Email Address</label>
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="Enter email"
+                  placeholder="Enter Email"
                 />
               </div>
               <div className="mb-3">
@@ -20,7 +20,7 @@ function Login() {
                 <input
                   type="password"
                   className="form-control"
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                 />
                 <p className="forgot-password text-right">
                   <a href="forgot-password">Forgot Password?</a>

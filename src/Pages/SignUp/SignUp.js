@@ -1,4 +1,5 @@
 import React from "react";
+import './SignUp.css';
 
 function SignUp() {
     return (
@@ -7,23 +8,23 @@ function SignUp() {
           <form>
                 <h3>Sign Up</h3>
                 <div className="mb-3">
-                <label>First name</label>
+                <label>First Name</label>
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="First name"
+                    placeholder="First Name"
                 />
                 </div>
                 <div className="mb-3">
-                <label>Last name</label>
-                <input type="text" className="form-control" placeholder="Last name" />
+                <label>Last Name</label>
+                <input type="text" className="form-control" placeholder="Last Name" />
                 </div>
                 <div className="mb-3">
-                <label>Email address</label>
+                <label>Email Address</label>
                 <input
                     type="email"
                     className="form-control"
-                    placeholder="Enter email"
+                    placeholder="Enter Email"
                 />
                 </div>
                 <div className="mb-3">
@@ -34,13 +35,23 @@ function SignUp() {
                     placeholder="Enter password"
                 />
                 </div>
+                <div className="mb-3">
+                <label>Account Type:</label><br/>
+                <select name="account-type" id="account-select" className="select">
+                    <option value="">-- Select Account Type --</option>
+                    <option value="student">Student</option>
+                    <option value="admin">Admin</option>
+                    <option value="super-admin">Super Admin</option>
+                </select>
+
+                </div>
                 <div className="d-grid">
                 <button type="submit" className="btn btn-primary">
                     Sign Up
                 </button>
                 </div>
-                <p className="forgot-password text-right">
-                    Already registered <a href="/sign-in">sign in?</a>
+                <p className="forgot-password text-center">
+                    Already Registered <a href="/sign-in">Sign In?</a>
                 </p>
             </form>
           </div>
