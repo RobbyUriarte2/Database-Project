@@ -5,7 +5,7 @@
 
 body {
   background-image: url("../../../public/auth-background.png");
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   font-weight: 400;
   font-family: 'Fira Sans', sans-serif;

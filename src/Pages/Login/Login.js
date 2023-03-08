@@ -5,7 +5,7 @@ function Login() {
     return (
         <div className="auth-card">
           <div className="auth-content">
-                <form>
+            <form action="/home">
               <h3>Sign In</h3>
               <div className="mb-3">
                 <label>Email Address</label>
@@ -13,6 +13,7 @@ function Login() {
                   type="email"
                   className="form-control"
                   placeholder="Enter Email"
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -21,6 +22,7 @@ function Login() {
                   type="password"
                   className="form-control"
                   placeholder="Enter Password"
+                  required
                 />
                 <p className="forgot-password text-right">
                   <a href="forgot-password">Forgot Password?</a>

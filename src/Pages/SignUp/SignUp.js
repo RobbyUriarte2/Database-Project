@@ -36,14 +36,13 @@ function SignUp() {
                 />
                 </div>
                 <div className="mb-3">
-                <label>Account Type:</label><br/>
-                <select name="account-type" id="account-select" className="select">
-                    <option value="">-- Select Account Type --</option>
-                    <option value="student">Student</option>
-                    <option value="admin">Admin</option>
-                    <option value="super-admin">Super Admin</option>
-                </select>
-
+                <label>Account Type</label><br/>
+                    <input type="radio" id="student" name="account" value="Student"/>
+                    <label for="student">Student</label><br/>
+                    <input type="radio" id="admin" name="account" value="admin"/>
+                    <label for="admin">Admin</label><br/>
+                    <input type="radio" id="super-admin" name="account" value="super-admin"/>
+                    <label for="super-admin">Super Admin</label>
                 </div>
                 <div className="d-grid">
                 <button type="submit" className="btn btn-primary">
