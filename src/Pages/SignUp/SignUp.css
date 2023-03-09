@@ -4,7 +4,14 @@
 }
 
 body {
-  background-image: url("../../../public/auth-background.png");
+  background-image: url("/public/background.jpg");
+   /* Full height */
+   height: 100%;
+
+   /* Center and scale the image nicely */
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
   min-height: 100vh;
   display: flex;
   font-weight: 400;

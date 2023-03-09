@@ -1,4 +1,5 @@
 import React from "react";
+import './Join.css';
 
 function Join() {
     return (
@@ -11,7 +12,7 @@ function Join() {
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card">
-            <div className="auth-content">
+            <div className="auth-content" style={{marginBottom: '285px'}}>
                 <form>
                     <h3>Join an RSO</h3>
                     <div className="mb-3">

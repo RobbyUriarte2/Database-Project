@@ -1,3 +1,5 @@
-.spce{
-    margin-top: 500 !important;
-}
+html {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  

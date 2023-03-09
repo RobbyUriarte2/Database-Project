@@ -8,9 +8,11 @@
     float: left;
     color: #f2f2f2;
     text-align: center;
-    padding: 14px 16px;
+    padding: 12px 88px;
     text-decoration: none;
     font-size: 17px;
+    display: flex;
+    justify-content: space-between;
   }
   
   .topnav a:hover {
@@ -20,7 +22,18 @@
   
   .topnav a.active {
     background-color: #0080ff;
-    color: white;
+    color: rgb(255, 255, 255);
 
   }
 
+  html {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .mainpages {
+    background-image: url(/public/UCF.jpg);
+    height: 100%;
+    background-position: center;
+  }
+  
