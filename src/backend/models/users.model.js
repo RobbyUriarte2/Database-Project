@@ -42,8 +42,8 @@ User.login = (email, password, result) => {
       result("Passwords do not match", null)
     }
 
-    console.log("created user: ", { id: res.insertId, ...newUser });
-    result(null, { id: res.insertId, ...newUser });
+    console.log("returned user id: ", { id: res.id});
+    result(null, { id: res.id});
   });
 };
 
