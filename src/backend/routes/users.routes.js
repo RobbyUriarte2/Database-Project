@@ -5,5 +5,7 @@ module.exports = app => {
 
   router.post("/", user.create);
 
+  router.post("/login", user.login);
+
   app.use('/api/user', router);
 };

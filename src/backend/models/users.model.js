@@ -22,6 +22,25 @@ User.create = (newUser, result) => {
   });
 };
 
+//have an enter of username and password
+User.login = (email, password, result) => {
+  sql.query("SELECT * FROM users WHERE email = ?", email, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if(res.password != password)
+    {
+      result("Passwords do not match", null)
+    }
+
+    console.log("created user: ", { id: res.insertId, ...newUser });
+    result(null, { id: res.insertId, ...newUser });
+  });
+}
+
 
 
 module.exports = User;
