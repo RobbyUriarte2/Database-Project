@@ -4,7 +4,7 @@
 }
 
 body {
-  background-image: url("../../../public/auth-background.png");
+  background-image: url("/public/background.jpg");
   min-height: 100%;
   display: flex;
   font-weight: 400;

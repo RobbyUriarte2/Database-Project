@@ -1,7 +1,34 @@
 import React from "react";
-import './SignUp.css';
+import { useNavigate } from "react-router-dom";
 
+import './SignUp.css';
 function SignUp() {
+    const navigate = useNavigate();
+    async function CreateUser() {
+        const sampleUser = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                userID: "2",
+                email: "sampleUser2@gmail.com",
+                password: "12345",
+                permsion:"student",
+                salt: "12345",
+                universityID: 1
+              })
+        };
+
+        await fetch('http://localhost:8080/api/user', sampleUser)
+        .then((Success) => {
+            console.log(Success);
+            navigate('/sign-in')
+          },
+          (failure) => {
+            console.error(failure); 
+          },
+        );
+    }
+
     return (
         <div className="auth-card">
           <div className="auth-content">
@@ -45,7 +72,7 @@ function SignUp() {
                     <label for="super-admin">Super Admin</label>
                 </div>
                 <div className="d-grid">
-                <button type="submit" className="btn btn-primary">
+                <button type="button" className="btn btn-primary" onClick={CreateUser}>
                     Sign Up
                 </button>
                 </div>

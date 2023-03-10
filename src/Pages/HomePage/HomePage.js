@@ -31,7 +31,7 @@ function HomePage() {
     let events = [obj1, obj2, obj3, obj4, obj5];
     return (
         <>
-        <div className="homepage">
+        <div className="mainpages">
         <div class="topnav">
             <a class="active" href="/home">Dashboard</a>
             <a href="/join">Join RSO</a>
@@ -40,7 +40,7 @@ function HomePage() {
             <a href="/sign-in">Log Out</a>
         </div>
 
-        <div className="row row-cols-2 row-cols-sm-3 g-1">
+        <div className="row row-cols-2 row-cols-sm-3 g-1" style={{marginTop: '10px'}}>
           {Object.keys(events).map((key) => (
                     <>
                     
@@ -61,9 +61,9 @@ function HomePage() {
                     </>
                 ))}
             </div>
-        </div>
+            </div>
         </>
-
+    
 
     )
 }

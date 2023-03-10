@@ -5,7 +5,9 @@ const app = express();
 
 
 var corsOptions = {
-  origin: "http://localhost:8080"
+  origin:'*', 
+  credentials:true,            
+  optionSuccessStatus:200,
 };
 
 app.use(cors(corsOptions));
@@ -19,6 +21,7 @@ app.get("/", (req, res) => {
 });
 
 require("./src/backend/routes/events.routes.js")(app);
+require("./src/backend/routes/users.routes.js")(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {

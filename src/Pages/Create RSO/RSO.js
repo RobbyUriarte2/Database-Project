@@ -1,4 +1,5 @@
 import React from "react";
+import './RSO.css';
 
 function RSO() {
     return (
