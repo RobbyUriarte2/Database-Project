@@ -5,6 +5,10 @@ const Event = function(Event) {
   this.eventID = Event.eventID;
   this.universityID = Event.universityID;
   this.userID = Event.userID;
+  this.category = Event.category;
+  this.name = Event.name;
+  this.latitude = Event.latitude;
+  this.longitude = Event.longitude;
 };
 
 Event.create = (newEvent, result) => {

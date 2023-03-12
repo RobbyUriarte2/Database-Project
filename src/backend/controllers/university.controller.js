@@ -1,4 +1,5 @@
-const Event = require("../models/events.model.js");
+const University = require("../models/university.model.js");
+const User = require("../models/university.model.js");
 
 exports.create = (req, res) => {
     // Validate request
@@ -8,18 +9,16 @@ exports.create = (req, res) => {
       });
     }
   
-    // Create a Event
-    const event = new Event({
-      universityID: req.body.title,
-      userID:req.body.userID,
-      category:req.body.category,
-      name:req.body.name,
+    // Create a University
+    const university = new University({
+      nameUniversity:req.body.nameUniversity,
       latitude:req.body.latitude,
-      longitude:req.body.longitude
+      longitude:req.body.longitude,
+      emailDomain:req.body.emailDomain,
     });
   
     // Save Event in the database
-    Event.create(event, (err, data) => {
+    User.create(user, (err, data) => {
       if (err)
         res.status(500).send({
           message:
