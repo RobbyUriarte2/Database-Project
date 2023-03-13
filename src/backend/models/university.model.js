@@ -26,5 +26,39 @@ University.create = async (newUniversity, result) => {
   
 };
 
+University.getAll = async (result) => {
+  await sql.then((database) => {
+    database.query("SELECT * FROM university",  (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      result(null, res);
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+
+  University.getAllNoAdmin = async (result) => {
+    await sql.then((database) => {
+      database.query("SELECT * FROM university X WHERE NOT EXISTS(SELECT * FROM users U WHERE U.universityID = X.universityID AND U.permission = 'superadmin')",  (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+    
+        result(null, res);
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  
+};
+
 
 module.exports = University;
