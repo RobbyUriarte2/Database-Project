@@ -1,4 +1,4 @@
-const User = require("../models/users.model.js");
+const ratingObj = require("../models/rating.model.js");
 
 exports.create = (req, res) => {
     // Validate request
@@ -8,18 +8,15 @@ exports.create = (req, res) => {
       });
     }
   
-    // Create a User
-    const user = new User({
+    // Create a comment
+    const newRating = new ratingObj({
+      ratingID:null,
+      eventID:req.body.eventID,
       userID:req.body.userID,
-      email:req.body.email,
-      password:req.body.password,
-      permission:"student",
-      salt:"secretsaltforhashinglater",
-      universityID:req.body.universityID
+      rating:req.body.rating
     });
   
-    // Save Event in the database
-    User.create(user, (err, data) => {
+    ratingObj.create(newRating, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -27,10 +24,35 @@ exports.create = (req, res) => {
         });
       else res.send(data);
     });
+
+
   };
 
 
-  exports.login = (req, res) => {
+
+  exports.EventRating = (req, res) => {
+    // Validate request
+    if (!req.body) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+    }
+  
+    ratingObj.getEventRatings(req.body.eventID, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Event."
+        });
+      else res.send(data);
+    });
+
+
+  };
+
+
+
+  exports.UserRatings = (req, res) => {
     // Validate request
     if (!req.body) {
       res.status(400).send({
@@ -38,10 +60,7 @@ exports.create = (req, res) => {
       });
     }
 
-
-  
-    // Save Event in the database
-    User.create(req.email, req.password, (err, data) => {
+    ratingObj.getUserRatings(req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -59,18 +78,14 @@ exports.create = (req, res) => {
       });
     }
 
-    const user = new User({
+    const newRating = new ratingObj({
+      ratingID:req.body.ratingID,
+      eventID:req.body.eventID,
       userID:req.body.userID,
-      email:req.body.email,
-      password:req.body.password,
-      permission:"student",
-      salt:"secretsaltforhashinglater",
-      universityID:req.body.universityID
+      rating:req.body.rating
     });
 
-  
-    // Save Event in the database
-    User.update(user, (err, data) => {
+    ratingObj.update(newRating, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -79,6 +94,7 @@ exports.create = (req, res) => {
       else res.send(data);
     });
   };
+
 
 
   exports.delete = (req, res) => {
@@ -89,9 +105,7 @@ exports.create = (req, res) => {
       });
     }
 
-  
-    // Save Event in the database
-    User.delete(req.body.userID, (err, data) => {
+    ratingObj.delete(req.body.ratingID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -100,3 +114,5 @@ exports.create = (req, res) => {
       else res.send(data);
     });
   };
+
+  
