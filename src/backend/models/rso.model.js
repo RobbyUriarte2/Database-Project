@@ -19,10 +19,7 @@ RSO.create = async (newRSO, userID, result) => {
       }
       newID = res.insertId;
       console.log("created rso: ", { id: res.insertId, ...newRSO });
-
-
-      result(null, { id: res.insertId, ...newRSO });
-
+      //result(null, { id: res.insertId, ...newRSO });
     });
 
     database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", newID, userID, 1, (err, res) => {
@@ -42,25 +39,85 @@ RSO.create = async (newRSO, userID, result) => {
 
 RSO.AddUser = async (rsoID, userID, result) => {
   await sql.then((database) => {
-    var newID;
     database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", rsoID, userID, 0, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
       }
-      newID = res.insertId;
       console.log("added rso user: ", {rsouser});
-
-
       result(null, {rsouser});
-
     });
   }).catch((err) => {
     console.log(err);
   });
 };
 
-//have an enter of username and password
+RSO.GetAll = async (result) => {
+  await sql.then((database) => {
+    database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID", (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("added rso user: ", {res});
+      result(null, {res});
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+RSO.GetUniversity = async (universityID, result) => {
+  await sql.then((database) => {
+    database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID WHERE rso.universityID = ?", universityID, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("added rso user: ", {res});
+      result(null, {res});
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+RSO.update = async (newRSO, result) => {
+  await sql.then((database) => {
+    database.query("UPDATE rso SET ? WHERE rso.rsoID = ?", newRSO, newRSO.rsoID, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("updated rso: ", { newRSO });
+      result(null, { newRSO });
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+RSO.delete = async (rsoID, result) => {
+  await sql.then((database) => {
+    database.query("DELETE FROM rso WHERE rsoID = ?", rsoID, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("deleted rso: ", { rsoID:rsoID });
+      result(null, { rsoID:rsoID });
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+
+
 
 module.exports = RSO;

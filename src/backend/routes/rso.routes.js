@@ -5,7 +5,15 @@ module.exports = app => {
 
   router.post("/", rso.create);
 
-  router.post("/addUser", rso.addUser)
+  router.post("/addUser", rso.addUser);
+
+  router.get("/all", rso.getAll);
+
+  router.get("/university", rso.getUniversity);
+
+  router.put("/update", rso.update);
+
+  router.delete("/delete", rso.delete);
 
   app.use('/api/rso', router);
 };

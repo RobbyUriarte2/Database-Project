@@ -5,5 +5,13 @@ module.exports = app => {
 
   router.post("/", comment.create);
 
+  router.get("/eventcomments", comment.EventComment);
+
+  router.get("/usercomments", comment.UserComments);
+
+  router.put("/update", comment.update);
+
+  router.delete("/delete", comment.delete);
+
   app.use('/api/comment', router);
 };
