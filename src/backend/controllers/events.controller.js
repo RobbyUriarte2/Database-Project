@@ -10,9 +10,12 @@ exports.create = (req, res) => {
   
     // Create a Event
     const event = new Event({
-      title: req.body.title,
-      description: req.body.description,
-      published: req.body.published || false
+      universityID: req.body.title,
+      userID:req.body.userID,
+      category:req.body.category,
+      name:req.body.name,
+      latitude:req.body.latitude,
+      longitude:req.body.longitude
     });
   
     // Save Event in the database

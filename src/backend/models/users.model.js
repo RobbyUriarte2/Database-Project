@@ -47,4 +47,34 @@ User.login = (email, password, result) => {
   });
 };
 
+
+User.update = (updatedUser, result) => {
+  sql.query("UPDATE users SET ? WHERE userID = ?", updatedUser, updatedUser.userID ,(err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("updated user: ", updatedUser);
+    result(null, updatedUser );
+  });
+};
+
+User.delete = (userID, result) => {
+  sql.query("DELETE FROM users WHERE userID = ?", userID ,(err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("deleted user: ", {userID:userID});
+    result(null, {userID:userID} );
+  });
+};
+
+
+
+
 module.exports = User;
