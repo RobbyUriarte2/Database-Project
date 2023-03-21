@@ -5,9 +5,9 @@ module.exports = app => {
 
   router.post("/", university.create);
 
-  router.post("/getall", university.getAll);
+  router.get("/getall", university.getAll);
 
-  router.post("/getallnoadmin", university.getAllNoAdmin);
+  router.get("/getallnoadmin", university.getAllNoAdmin);
 
   app.use('/api/university', router);
 };

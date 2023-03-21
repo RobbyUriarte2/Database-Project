@@ -7,6 +7,9 @@ import HomePage from "./Pages/HomePage/HomePage";
 import Join from "./Pages/Join/Join";
 import RSO from "./Pages/Create RSO/RSO";
 import CreateEvent from "./Pages/Create Event/CreateEvent";
+import StudentSignUp from "./Pages/StudentSignUp/StudentSignUp";
+import SuperAdminSignUp from "./Pages/SuperAdminSignUp/SuperAdminSignUp";
+import AdminSignUp from "./Pages/AdminSignUp/AdminSignUp";
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/create-rso" element={<RSO />} />
         <Route path="/create-event" element={<CreateEvent />} />
+        <Route path="/student/:user" element={<StudentSignUp />} />
+        <Route path="/admin" element={<AdminSignUp />} />
+        <Route path="/super-admin" element={<SuperAdminSignUp />} />
       </Routes>
     </Router>
   );

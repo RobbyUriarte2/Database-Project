@@ -47,18 +47,41 @@ User.login = (email, password, result) => {
   });
 };
 
+User.get = async (userID, result) => {
+  await sql.then((database) =>{
+    let queryStatement = `SELECT * FROM users WHERE userID = ${userID}`
+    database.query(queryStatement, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-User.update = (updatedUser, result) => {
-  sql.query("UPDATE users SET ? WHERE userID = ?", updatedUser, updatedUser.userID ,(err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("updated user: ", updatedUser);
-    result(null, updatedUser );
+      result(null, res);
+    });
+  }).catch((err) => {
+    console.log(err);
   });
+  
+};
+
+User.update = async (updatedUser, result) => {
+  await sql.then((database) =>{
+    let queryStatement = `UPDATE users SET ? WHERE userID = ${updatedUser.userID}`
+    database.query(queryStatement, updatedUser, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("updated user: ", updatedUser);
+      result(null, updatedUser );
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+  
 };
 
 User.delete = (userID, result) => {
@@ -73,7 +96,6 @@ User.delete = (userID, result) => {
     result(null, {userID:userID} );
   });
 };
-
 
 
 
