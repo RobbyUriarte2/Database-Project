@@ -18,13 +18,13 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/create-rso" element={<RSO />} />
-        <Route path="/create-event" element={<CreateEvent />} />
+        <Route path="/home/:user/:permission" element={<HomePage />} />
+        <Route path="/join/:user/:permission" element={<Join />} />
+        <Route path="/create-rso/:user/:permission" element={<RSO />} />
+        <Route path="/create-event/:user/:permission" element={<CreateEvent />} />
         <Route path="/student/:user" element={<StudentSignUp />} />
-        <Route path="/admin" element={<AdminSignUp />} />
-        <Route path="/super-admin" element={<SuperAdminSignUp />} />
+        <Route path="/admin/:user" element={<AdminSignUp />} />
+        <Route path="/super-admin/:user" element={<SuperAdminSignUp />} />
       </Routes>
     </Router>
   );

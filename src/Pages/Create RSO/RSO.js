@@ -1,14 +1,16 @@
 import React from "react";
 import './RSO.css';
+import { useParams } from "react-router-dom";
 
 function RSO() {
+  const { user, permission } = useParams();
     return (
        <>
        <div class="topnav">
-            <a href="/home">Dashboard</a>
-            <a  href="/join">Join RSO</a>
-            <a class="active" href="/create-rso">Create RSO</a>
-            <a href="/create-event">Create Event</a>
+       <a href={`/home/${user}/${permission}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
+            <a className="active" href={`/create-rso/${user}/${permission}`}>Create RSO</a>
+            <a href={`/create-event/${user}/${permission}`}>Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card">

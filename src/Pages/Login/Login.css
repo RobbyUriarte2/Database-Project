@@ -63,3 +63,8 @@ body, html, .App, #root, .auth-card {
 .forgot-password a {
   color: #006eff;
 }
+
+.errorMessage {
+  color: red;
+  font-family: Arial, Helvetica, sans-serif;
+}

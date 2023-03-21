@@ -1,8 +1,13 @@
 import React from "react";
 import './HomePage.css';
 import { Card, ListGroup } from "react-bootstrap";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 
 function HomePage() {
+    const { user, permission } = useParams();
+
     const obj1 = {
         Name: "Sprit Splash",
         Date: "10/20/25",
@@ -29,14 +34,20 @@ function HomePage() {
         Time: "2:00 PM",
     };
     let events = [obj1, obj2, obj3, obj4, obj5];
+
+    useEffect(()=> {
+        if(permission === "student")
+            document.getElementById("event").style.display = "none";
+    })
+    console.log()
     return (
         <>
         <div className="mainpages">
         <div class="topnav">
-            <a class="active" href="/home">Dashboard</a>
-            <a href="/join">Join RSO</a>
-            <a href="/create-rso">Create RSO</a>
-            <a href="/create-event">Create Event</a>
+            <a className="active" href={`/home/${user}/${permission}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
+            <a  href={`/create-rso/${user}/${permission}`}>Create RSO</a>
+            <a href={`/create-event/${user}/${permission}`}>Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
 

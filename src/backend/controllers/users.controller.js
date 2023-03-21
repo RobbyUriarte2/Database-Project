@@ -37,11 +37,9 @@ exports.create = (req, res) => {
         message: "Content can not be empty!"
       });
     }
-
-
   
     // Save Event in the database
-    User.create(req.email, req.password, (err, data) => {
+    User.login(req.body.email, req.body.password, (err, data) => {
       if (err)
         res.status(500).send({
           message:

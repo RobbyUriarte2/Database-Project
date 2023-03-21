@@ -1,7 +1,11 @@
 import React from "react";
 import './CreateEvent.css';
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function CreateEvent() {
+  
+    const { user, permission } = useParams();
 
     function RSOSelected() {
         if(document.getElementById("event").value === 'rso') {
@@ -12,13 +16,18 @@ function CreateEvent() {
         }
     }
 
+    useEffect(() =>{
+      if(permission !== "super-admin") {
+        document.getElementById("public").style.display = "none";
+      }
+    })
     return (
        <>
        <div className="topnav">
-            <a href="/home">Dashboard</a>
-            <a  href="/join">Join RSO</a>
-            <a  href="/create-rso">Create RSO</a>
-            <a className="active" href="/create-event">Create Event</a>
+            <a href={`/home/${user}/${permission}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
+            <a  href={`/create-rso/${user}/${permission}`}>Create RSO</a>
+            <a className="active" href={`/create-event/${user}/${permission}`}>Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card" style={{marginTop: '150px'}}>
@@ -39,7 +48,7 @@ function CreateEvent() {
                 <select id="event" className="select" onChange={RSOSelected} required>
                             <option value="">-- Select Event Type --</option>
                             <option value="private">Private</option>
-                            <option value="fundraising">Fundraising</option>
+                            <option value="public" id="public">Public</option>
                             <option value="rso">RSO</option>
                         </select>
               </div>

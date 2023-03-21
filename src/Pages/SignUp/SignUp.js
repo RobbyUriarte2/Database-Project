@@ -6,9 +6,8 @@ function SignUp() {
     const navigate = useNavigate();
 
     async function CreateUser(event) {
-    event.preventDefault();
-    console.log("Function Called");
-        
+        event.preventDefault();
+
         var type;
         var types = document.getElementsByName('account');
         for(let i = 0; i < types.length; i++) {
