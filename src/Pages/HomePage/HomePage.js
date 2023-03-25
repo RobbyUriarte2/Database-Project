@@ -43,11 +43,11 @@ function HomePage() {
     return (
         <>
         <div className="mainpages">
-        <div class="topnav">
+        <div className="topnav">
             <a className="active" href={`/home/${user}/${permission}`}>Dashboard</a>
             <a  href={`/join/${user}/${permission}`}>Join RSO</a>
             <a  href={`/create-rso/${user}/${permission}`}>Create RSO</a>
-            <a href={`/create-event/${user}/${permission}`}>Create Event</a>
+            <a href={`/create-event/${user}/${permission}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
 
