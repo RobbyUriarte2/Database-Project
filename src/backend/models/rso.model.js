@@ -28,7 +28,7 @@ RSO.create = async (newRSO, userID, result) => {
 
 RSO.AddUserFirst = async (rsoID, userID, data, result) => {
   await sql.then((database) => {
-    database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", rsoID, userID, 1, (err, res) => {
+    database.query(`INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES ('${rsoID}','${userID}','${1}')`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

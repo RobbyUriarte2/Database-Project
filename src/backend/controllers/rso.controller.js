@@ -16,7 +16,7 @@ exports.create = (req, res) => {
       verified:false
     });
   
-    RSO.create(newRSO, (err, data) => {
+    RSO.create(newRSO, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -24,7 +24,8 @@ exports.create = (req, res) => {
         });
       else
       {
-        RSO.AddUserFirst(data.rsoID, data.userID, data, (err, data) => {
+        console.log(data);
+        RSO.AddUserFirst(data.id, req.body.userID, data, (err, data) => {
           if (err)
             res.status(500).send({
               message:
