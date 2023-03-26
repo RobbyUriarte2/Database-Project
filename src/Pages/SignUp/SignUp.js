@@ -36,13 +36,10 @@ function SignUp() {
             let User = await Success.json();
             switch(type) {
                 case "student": 
-                    navigate(`/student/${User.id}`,)
-                    break;
-                case "admin":
-                    navigate('/admin')
+                    navigate(`/student/${User.id}`)
                     break;
                 case "super-admin":
-                navigate('/super-admin')
+                navigate(`/super-admin/${User.id}`)
                 break;
 
                 default: 
@@ -100,8 +97,6 @@ function SignUp() {
                 <label>Account Type</label><br/>
                     <input type="radio" id="studen" name="account" value="student" />
                     <label for="student">Student</label><br/>
-                    <input type="radio" id="admin" name="account" value="admin"/>
-                    <label for="admin">Admin</label><br/>
                     <input type="radio" id="super-admin" name="account" value="super-admin" required/>
                     <label for="super-admin">Super Admin</label>
                 </div>
