@@ -45,7 +45,17 @@ exports.create = (req, res) => {
           message:
             err.message || "Some error occurred while creating the Event."
         });
-      else res.send(data);
+      else
+      {
+        User.CheckAdmin(data, (err, data1) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the Event."
+            });
+            else res.send(data1);
+          });
+      }
     });
   };
 

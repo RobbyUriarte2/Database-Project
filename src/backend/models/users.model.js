@@ -18,7 +18,6 @@ User.create = async (newUser, result) => {
         result(err, null);
         return;
       }
-  
       console.log("created user: ", { id: res.insertId, ...newUser });
       result(null, { id: res.insertId, ...newUser });
     });
@@ -38,12 +37,39 @@ User.login = async (email, password, result) => {
       result(err, null);
       return;
     }
-
-      console.log("returned user: ", { user: res[0]});
-      result(null, { user: res[0]});
+      if(password == res[0].password)
+      {
+        console.log("returned user: ", { user: res[0]});
+        result(null, { user: res[0]});
+        return;
+      }
+      else
+      {
+        result("incorrect password", null)
+        return;
+      }
     });
   }).catch((err) => {
     console.log(err);
+  });
+};
+
+User.CheckAdmin = async (user, result) => {
+  await sql.then((database) => {
+  let queryStatement2 = `SELECT COUNT(*) AS COUNT FROM rso_user WHERE rso_user.userID = '${user.user.userID}' AND rso_user.isAdmin = 1`
+  database.query(queryStatement2, (err, res) => {
+  if (err) {
+    console.log("error: ", err);
+    result(err, null);
+    return;
+  }
+  console.log(res)
+  if(res[0].COUNT > 0 && user.user.permission != "superadmin")
+  {
+    user.user.permission = "admin";
+  }
+  result(null, user);
+  });
   });
 };
 

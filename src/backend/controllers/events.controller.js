@@ -10,26 +10,42 @@ exports.createPublic = (req, res) => {
   
     // Create a Event
     const event = new Event({
-      universityID: req.body.title,
+      universityID: req.body.universityID,
       userID:req.body.userID,
       category:req.body.category,
       name:req.body.name,
       latitude:req.body.latitude,
       longitude:req.body.longitude,
-      verified:false
+      verified:false,
+      eventStart:req.body.eventStart,
+      eventEnd:req.body.eventEnd
     });
   
     // Save Event in the database
-    Event.createPublic(event, (err, data) => {
+    Event.createEvent(event, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Event."
         });
-      else res.send(data);
+      else 
+      {
+        Event.createPublic(data.id, data.userID, data.universityID, data, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the Event."
+            });
+          else 
+          {
+            res.send(data);
+          }
+        });
+        
+      }
     });
   };
-
+  
   exports.createPrivate = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -46,17 +62,32 @@ exports.createPublic = (req, res) => {
       name:req.body.name,
       latitude:req.body.latitude,
       longitude:req.body.longitude,
-      verified:false
+      verified:false,
+      eventStart:req.body.eventStart,
+      eventEnd:req.body.eventEnd
     });
   
     // Save Event in the database
-    Event.createPrivate(event, (err, data) => {
+    Event.createEvent(event, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Event."
         });
-      else res.send(data);
+      else
+      {
+        Event.createPrivate(data.id, data.userID, data.universityID, data, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the Event."
+            });
+          else 
+          {
+            res.send(data);
+          }
+        });
+      }
     });
   };
 
@@ -76,17 +107,32 @@ exports.createPublic = (req, res) => {
       name:req.body.name,
       latitude:req.body.latitude,
       longitude:req.body.longitude,
-      verified:true
+      verified:true,
+      eventStart:req.body.eventStart,
+      eventEnd:req.body.eventEnd
     });
   
     // Save Event in the database
-    Event.createRSO(event, req.body.rsoID, (err, data) => {
+    Event.createEvent(event, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Event."
         });
-      else res.send(data);
+      else
+      {
+        Event.createRSO(data.id, data.userID, req.body.rsoID, data, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the Event."
+            });
+          else 
+          {
+            res.send(data);
+          }
+        });
+      }
     });
   };
 
@@ -120,7 +166,7 @@ exports.createPublic = (req, res) => {
     }
   
     // Save Event in the database
-    Event.getAllPrivateEvents((err, data) => {
+    Event.getAllPrivateEvents(req.body.universityID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -139,7 +185,7 @@ exports.createPublic = (req, res) => {
     }
   
     // Save Event in the database
-    Event.getAllPrivateEventsNotVerified((err, data) => {
+    Event.getAllPrivateEventsNotVerified(req.body.universityID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -177,7 +223,7 @@ exports.createPublic = (req, res) => {
     }
   
     // Save Event in the database
-    Event.getAllPublicEventsNotVerified((err, data) => {
+    Event.getAllPublicEventsNotVerified(req.body.universityID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -196,7 +242,7 @@ exports.createPublic = (req, res) => {
     }
   
     // Save Event in the database
-    Event.getAllRSOEvents((err, data) => {
+    Event.getAllRSOEvents(req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:

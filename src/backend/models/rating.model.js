@@ -2,15 +2,15 @@ const sql = require("./db.js");
 
 // constructor
 const ratingObj = function(ratingObj) {
-  this.ratingID = commentObj.ratingID;
-  this.eventID = commentObj.eventID;
-  this.userID = commentObj.userID;
-  this.rating = commentObj.rating;
+  this.ratingID = ratingObj.ratingID;
+  this.eventID = ratingObj.eventID;
+  this.userID = ratingObj.userID;
+  this.rating = ratingObj.rating;
 };
 
 ratingObj.create = async (newRating, result) => {
   await sql.then((database) => {
-    database.query("INSERT INTO comments SET ?", newRating, (err, res) => {
+    database.query("INSERT INTO ratings SET ?", newRating, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
