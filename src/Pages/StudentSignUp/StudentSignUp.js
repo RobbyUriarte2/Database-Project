@@ -9,7 +9,7 @@ function StudentSignUp() {
     const navigate = useNavigate();
 
     async function getUniversities(){
-        await fetch('http://localhost:8080/api/university/getallnoadmin')
+        await fetch('http://localhost:8080/api/university/getall')
             .then(async (Success) => {
                 setUniversities(await Success.json());
                 },

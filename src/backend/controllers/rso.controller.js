@@ -16,13 +16,24 @@ exports.create = (req, res) => {
       verified:false
     });
   
-    RSO.create(newRSO, (err, data) => {
+    RSO.create(newRSO, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Event."
         });
-      else res.send(data);
+      else
+      {
+        console.log(data);
+        RSO.AddUserFirst(data.id, req.body.userID, data, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Error when adding the first user"
+            });
+          else res.send(data)
+        });
+      }
     });
   };
 
@@ -38,7 +49,7 @@ exports.create = (req, res) => {
     
     //might need to check for injections here, make sure what they send in is a valid string
 
-    RSO.addUser(req.body.rsoID, req.body.userID, (err, data) => {
+    RSO.AddUser(req.body.rsoID, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:

@@ -19,17 +19,22 @@ RSO.create = async (newRSO, userID, result) => {
       }
       newID = res.insertId;
       console.log("created rso: ", { id: res.insertId, ...newRSO });
-      //result(null, { id: res.insertId, ...newRSO });
+      result(null, { id: res.insertId, ...newRSO });
     });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
 
-    database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", newID, userID, 1, (err, res) => {
+RSO.AddUserFirst = async (rsoID, userID, data, result) => {
+  await sql.then((database) => {
+    database.query(`INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES ('${rsoID}','${userID}','${1}')`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
-      }    
-      result(null, { id: res.insertId, ...newRSO });
-
+      }
+      result(null, data);
     });
   }).catch((err) => {
     console.log(err);
@@ -37,16 +42,16 @@ RSO.create = async (newRSO, userID, result) => {
 };
 
 
-RSO.addUser = async (rsoID, userID, result) => {
+RSO.AddUser = async (rsoID, userID, result) => {
   await sql.then((database) => {
-    database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", rsoID, userID, 0, (err, res) => {
+    database.query(`INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES ('${rsoID}','${userID}','${0}')`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
       }
-      console.log("added rso user: ", {rsouser});
-      result(null, {rsouser});
+      console.log("added rso user: ", {id: userID});
+      result(null, {id: userID});
     });
   }).catch((err) => {
     console.log(err);
