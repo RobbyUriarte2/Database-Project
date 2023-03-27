@@ -93,7 +93,7 @@ RSO.getUniversity = async (universityID, result) => {
 //working on
 RSO.GetUserRSO = async (userID, result) => {
   await sql.then((database) => {
-    database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID WHERE rso.universityID = ?", universityID, (err, res) => {
+    database.query(`SELECT DISTINCT * FROM rso LEFT JOIN rso_user on rso.rsoID = rso_user.rsoID WHERE rso_user.userID = '${userID}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

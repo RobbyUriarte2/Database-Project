@@ -18,7 +18,10 @@ exports.createPublic = (req, res) => {
       longitude:req.body.longitude,
       verified:false,
       eventStart:req.body.eventStart,
-      eventEnd:req.body.eventEnd
+      eventEnd:req.body.eventEnd,
+      contactPhone:req.body.contactPhone,
+      email:req.body.email,
+      description:req.body.description
     });
   
     // Save Event in the database
@@ -64,7 +67,10 @@ exports.createPublic = (req, res) => {
       longitude:req.body.longitude,
       verified:false,
       eventStart:req.body.eventStart,
-      eventEnd:req.body.eventEnd
+      eventEnd:req.body.eventEnd,
+      contactPhone:req.body.contactPhone,
+      email:req.body.email,
+      description:req.body.description
     });
   
     // Save Event in the database
@@ -78,10 +84,12 @@ exports.createPublic = (req, res) => {
       {
         Event.createPrivate(data.id, data.userID, data.universityID, data, (err, data) => {
           if (err)
+          {
             res.status(500).send({
               message:
                 err.message || "Some error occurred while creating the Event."
             });
+          }
           else 
           {
             res.send(data);
@@ -107,9 +115,12 @@ exports.createPublic = (req, res) => {
       name:req.body.name,
       latitude:req.body.latitude,
       longitude:req.body.longitude,
-      verified:true,
+      verified:false,
       eventStart:req.body.eventStart,
-      eventEnd:req.body.eventEnd
+      eventEnd:req.body.eventEnd,
+      contactPhone:req.body.contactPhone,
+      email:req.body.email,
+      description:req.body.description
     });
   
     // Save Event in the database
