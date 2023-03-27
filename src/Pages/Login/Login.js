@@ -32,7 +32,7 @@ function Login() {
           document.getElementById("error").style.display = "";
         }
         else {
-          navigate(`/home/${result.user.userID}/${result.user.permission}`)
+          navigate(`/home/${result.user.userID}/${result.user.permission}/${result.user.universityID}`)
           console.log(result.user.permission);
           console.log("login success");
         }

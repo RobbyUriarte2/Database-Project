@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 
 function HomePage() {
-    const { user, permission } = useParams();
+    const { user, permission, universityID } = useParams();
 
     const obj1 = {
         Name: "Sprit Splash",
@@ -44,10 +44,11 @@ function HomePage() {
         <>
         <div className="mainpages">
         <div className="topnav">
-            <a className="active" href={`/home/${user}/${permission}`}>Dashboard</a>
-            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
-            <a  href={`/create-rso/${user}/${permission}`}>Create RSO</a>
-            <a href={`/create-event/${user}/${permission}`} id="event">Create Event</a>
+            <a className="active" href={`/home/${user}/${permission}/${universityID}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
+            <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
+            <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
+            <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
 

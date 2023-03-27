@@ -1,25 +1,63 @@
 import React from "react";
 import './RSO.css';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function RSO() {
-  const { user, permission } = useParams();
+  const { user, permission, universityID } = useParams();
+
+  async function createRSO(event) {
+    event.preventDefault();
+    document.getElementById("message").style.display = "none";
+    const props = {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+          rsoID: null,
+          NameRSO: document.getElementById("name").value,
+          DescriptionRSO: document.getElementById("rso-description").value,
+          universityID: universityID
+          })
+    };
+    await fetch('http://localhost:8080/api/rso', props)
+    .then(async (Success) => {
+        let rso = await Success.json();
+        console.log(rso);
+        document.getElementById("message").style.display = "";
+        document.getElementById("message").innerText = "Rso Added!"
+
+        },
+        (failure) => {
+            console.error(failure); 
+        },
+    );
+  }
+
+  useEffect(()=>{
+    document.getElementById("form").addEventListener("submit", function(event){createRSO(event)});
+    document.getElementById("message").style.display = "none";
+    if(permission === "student")
+            document.getElementById("event").style.display = "none";
+  },[]);  
+
     return (
        <>
        <div class="topnav">
-       <a href={`/home/${user}/${permission}`}>Dashboard</a>
-            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
-            <a className="active" href={`/create-rso/${user}/${permission}`}>Create RSO</a>
-            <a href={`/create-event/${user}/${permission}`}>Create Event</a>
+       <a href={`/home/${user}/${permission}/${universityID}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
+            <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
+            <a className="active" href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
+            <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card">
             <div className="auth-content">
-                <form>
+                <form id="form">
                     <h3>Create an RSO</h3>
                     <div className="mb-3">
                 <label>Name</label>
                 <input
+                  id="name"
                   type="name"
                   className="form-control"
                   placeholder="Enter RSO Name"
@@ -28,44 +66,8 @@ function RSO() {
               </div>
               <div className="mb-3">
                 <label>Description</label>
-                <textarea id="ros-description" className="form-control" placeholder="Description..." rows="3" cols="40" required/>
-                
-              </div>
-              <div className="mb-3">
-                <label>Member 1</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label>Member 2</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label>Member 3</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label>Member 4</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="Email"
-                  required
-                />
+                <textarea id="rso-description" className="form-control" placeholder="Description..." rows="3" cols="40" required/>
+                <span id="message"></span>
               </div>
                     <div className="d-grid">
                         <button type="submit" className="btn btn-primary">

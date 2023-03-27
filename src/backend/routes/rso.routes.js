@@ -9,11 +9,13 @@ module.exports = app => {
 
   router.get("/all", rso.getAll);
 
-  router.get("/university", rso.getUniversity);
+  router.post("/university", rso.getUniversity);
 
   router.put("/update", rso.update);
 
   router.delete("/delete", rso.delete);
+
+  router.delete("/deleteUser", rso.delete);
 
   app.use('/api/rso', router);
 };

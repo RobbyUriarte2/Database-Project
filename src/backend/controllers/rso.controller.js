@@ -80,7 +80,7 @@ exports.create = (req, res) => {
     
     //might need to check for injections here, make sure what they send in is a valid string
 
-    RSO.getUniversity(universityID, (err, data) => {
+    RSO.getUniversity(req.body.universityID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
@@ -127,6 +127,24 @@ exports.create = (req, res) => {
     }
   
     RSO.delete(req.body.rsoID, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Event."
+        });
+      else res.send(data);
+    });
+  };
+
+  exports.deleteUser = (req, res) => {
+    // Validate request
+    if (!req.body) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+    }
+  
+    RSO.delete(req.body.rsoID, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:

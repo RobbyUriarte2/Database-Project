@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 require("./src/backend/routes/events.routes.js")(app);
 require("./src/backend/routes/university.routes.js")(app);
 require("./src/backend/routes/users.routes.js")(app);
+require("./src/backend/routes/rso.routes.js")(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {

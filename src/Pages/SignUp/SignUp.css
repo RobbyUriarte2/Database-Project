@@ -75,3 +75,7 @@ body, html, .App, #root, .auth-card {
     height: 35px;
     width: 340px;
 }
+
+.errorMessage {
+  color: red;
+}
