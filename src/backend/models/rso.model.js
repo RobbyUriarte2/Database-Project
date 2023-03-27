@@ -41,16 +41,16 @@ RSO.AddUserFirst = async (rsoID, userID, data, result) => {
   });
 };
 
-RSO.AddUser = async (rsoID, userID, isAdmin, result) => {
+RSO.AddUser = async (rsoID, userID, result) => {
   await sql.then((database) => {
-    database.query("INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES (?,?,?)", rsoID, userID, 0, (err, res) => {
+    database.query(`INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES ('${rsoID}','${userID}','${0}')`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
       }
-      console.log("added rso user: ", {rsouser});
-      result(null, {rsouser});
+      console.log("added rso user: ", {id: userID});
+      result(null, {id: userID});
     });
   }).catch((err) => {
     console.log(err);

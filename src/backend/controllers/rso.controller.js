@@ -49,7 +49,7 @@ exports.create = (req, res) => {
     
     //might need to check for injections here, make sure what they send in is a valid string
 
-    RSO.addUser(req.body.rsoID, req.body.userID, 0, (err, data) => {
+    RSO.AddUser(req.body.rsoID, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:
