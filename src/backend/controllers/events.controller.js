@@ -56,7 +56,7 @@ exports.createPublic = (req, res) => {
   
     // Create a Event
     const event = new Event({
-      universityID: req.body.title,
+      universityID: req.body.universityID,
       userID:req.body.userID,
       category:req.body.category,
       name:req.body.name,
@@ -196,13 +196,7 @@ exports.createPublic = (req, res) => {
   };
 
   exports.getPublic = (req, res) => {
-    // Validate request
-    if (!req.body) {
-      res.status(400).send({
-        message: "Content can not be empty!"
-      });
-    }
-  
+
     // Save Event in the database
     Event.getAllPublicEvents((err, data) => {
       if (err)

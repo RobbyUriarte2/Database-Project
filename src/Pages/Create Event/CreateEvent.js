@@ -1,11 +1,26 @@
 import React from "react";
 import './CreateEvent.css';
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import MapPicker from "react-google-map-picker";
 
 function CreateEvent() {
   
     const { user, permission, universityID } = useParams();
+    const DefaultLocation = { lat: 28, lng: -81};
+    const DefaultZoom = 10;
+    const [defaultLocation] = useState(DefaultLocation);
+  
+    const [location, setLocation] = useState(defaultLocation);
+    const [zoom, setZoom] = useState(DefaultZoom);
+  
+    function handleChangeLocation (lat, lng){
+      setLocation({lat:lat, lng:lng});
+    }
+    
+    function handleChangeZoom (newZoom){
+      setZoom(newZoom);
+    }
 
     function RSOSelected() {
         if(document.getElementById("event").value === 'rso') {
@@ -16,11 +31,85 @@ function CreateEvent() {
         }
     }
 
+    async function createEvent(event) {
+      event.preventDefault();
+
+      let eventType = document.getElementById("event").value;
+      let startDate = document.getElementById("startDate").value + " " + document.getElementById("startTime").value;
+      let endDate = document.getElementById("endDate").value + " " + document.getElementById("endTime").value;
+      
+      const props = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+              universityID: universityID,
+              userID: user,
+              category: document.getElementById("category-type").value,
+              name: document.getElementById("eventName").value,
+              latitude: location.lat,
+              longitude: location.lng,
+              verified: false,
+              eventStart: startDate,
+              eventEnd: endDate
+            })
+      };
+      switch(eventType) {
+        case "private":
+          await fetch('http://localhost:8080/api/events/private', props)
+          .then(async (Success) => {
+              let event = await Success.json();
+              console.log(event)
+              },
+              (failure) => {
+                  console.error(failure); 
+              },
+          );
+          break;
+
+        case "public":
+          await fetch('http://localhost:8080/api/events/public', props)
+          .then(async (Success) => {
+              let event = await Success.json();
+              console.log(event)
+              },
+              (failure) => {
+                  console.error(failure); 
+              },
+          );
+          break;
+        
+        case "rso":
+          await fetch('http://localhost:8080/api/events/private', props)
+          .then(async (Success) => {
+              let event = await Success.json();
+              console.log(event)
+              },
+              (failure) => {
+                  console.error(failure); 
+              },
+          );
+          break;
+        
+        default:
+      }
+      // await fetch('http://localhost:8080/api/user/get', props)
+      // .then(async (Success) => {
+      //     let User = await Success.json();
+      //     AttachUniversity(User[0])
+      //     },
+      //     (failure) => {
+      //         console.error(failure); 
+      //     },
+      // );
+  }
+
     useEffect(() =>{
       if(permission !== "super-admin") {
         document.getElementById("public").style.display = "none";
       }
-    })
+      document.getElementById("form").addEventListener("submit", function(event){createEvent(event)});
+    },[])
+
     return (
        <>
        <div className="topnav">
@@ -28,16 +117,17 @@ function CreateEvent() {
             <a  href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
-            <a className="active" href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
+            <a className="active" href={`/create-event/${user}/${permission}/${universityID}`}>Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
-       <div className="auth-card" style={{marginTop: '150px'}}>
+       <div className="auth-card" style={{marginTop: '275px'}}>
             <div className="auth-content" >
-                <form>
+                <form id="form">
                     <h3>Create an Event</h3>
                     <div className="mb-3">
                 <label>Name</label>
                 <input
+                  id="eventName"
                   type="name"
                   className="form-control"
                   placeholder="Event Name"
@@ -55,7 +145,7 @@ function CreateEvent() {
               </div>
               <div className="mb-3" id="RSO-Selection" hidden >
                 <label>RSO</label>
-                <select name="RSO" className="select" >
+                <select id="RSO-Name" name="RSO" className="select" >
                             <option value="">-- Select Event Type --</option>
                             <option value="random">Random RSO</option>
                         </select>
@@ -73,21 +163,36 @@ function CreateEvent() {
               </div>
               <div className="mb-3">
                 <label>Description</label>
-                <textarea id="ros-description" className="form-control" placeholder="Description..." rows="3" cols="40" required/>
+                <textarea id="rso-description" className="form-control" placeholder="Description..." rows="3" cols="40" required/>
                 
               </div>
               <div className="mb-3">
-                <label>Time</label>
-                <input type="time" className="form-control" id="time" min="00:00" max="24:00" placeholder="00:00" required/>
+                <label>Start Time</label>
+                <input type="time" className="form-control" id="startTime" min="00:00" max="24:00" placeholder="00:00" required/>
 
               </div>
               <div className="mb-3">
-                <label>Date</label><br/>
-                <input type="date" className="form-control" id="start"min="2023-01-01" max="2025/01/01" required/>
+                <label>Start Date</label><br/>
+                <input type="date" className="form-control" id="startDate" min="2023-01-01" max="2025/01/01" required/>
+              </div>
+              <div className="mb-3">
+                <label>End Time</label>
+                <input type="time" className="form-control" id="endTime" min="00:00" max="24:00" placeholder="00:00" required/>
+
+              </div>
+              <div className="mb-3">
+                <label>End Date</label><br/>
+                <input type="date" className="form-control" id="endDate" min="2023-01-01" max="2025/01/01" required/>
               </div>
               <div className="mb-3">
                 <label>Location</label><br/>
-                <input type="name" className="form-control" required/>
+                <MapPicker defaultLocation={defaultLocation}
+              zoom={zoom}
+              mapTypeId="roadmap"
+              style={{height:'250px'}}
+              onChangeLocation={handleChangeLocation} 
+              onChangeZoom={handleChangeZoom}
+              apiKey='AIzaSyDMLJZF8D-0fB-pLqZbt0aFBty80UUAiCY'/>
               </div>
               <div className="mb-3">
                 <label>Contact Phone</label><br/>
@@ -96,6 +201,7 @@ function CreateEvent() {
               <div className="mb-3">
                 <label>Contact Email</label>
                 <input
+                  id="email"
                   type="email"
                   className="form-control"
                   placeholder="Email"
