@@ -1,9 +1,8 @@
 import React from "react";
-import './Join.css';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function Join() {
+function Leave() {
     const { user, permission, universityID } = useParams();
     const [rsos, setRsos] = useState(null);
 
@@ -25,18 +24,18 @@ function Join() {
         );
       }
 
-      async function joinRSO(event) {
+      async function LeaveRSO(event) {
         event.preventDefault();
         
         const props = {
-          method: 'POST',
+          method: 'DELETE',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({
               rsoID: document.getElementById("rso-select").value,
               userID: user
               })
         };
-        await fetch('http://localhost:8080/api/rso/addUser', props)
+        await fetch('http://localhost:8080/api/rso/delete', props)
         .then(async (Success) => {
             console.log(await Success.json());
             },
@@ -48,7 +47,7 @@ function Join() {
 
       useEffect(()=> {
         getRSOS();
-        document.getElementById("form").addEventListener("submit", function(event){joinRSO(event)});
+        document.getElementById("form").addEventListener("submit", function(event){LeaveRSO(event)});
         if(permission === "student")
             document.getElementById("event").style.display = "none";
     },[]);
@@ -57,8 +56,8 @@ function Join() {
        <>
        <div className="topnav">
             <a href={`/home/${user}/${permission}/${universityID}`}>Dashboard</a>
-            <a  className="active" href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
+            <a  href={`/join/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>
@@ -66,7 +65,7 @@ function Join() {
        <div className="auth-card">
             <div className="auth-content" style={{marginBottom: '285px'}}>
                 <form id="form">
-                    <h3>Join an RSO</h3>
+                    <h3>Leave an RSO</h3>
                     <div className="mb-3">
                         <label>RSO:</label><br />
                         <select name="RSO" id="rso-select" className="select" required>
@@ -76,7 +75,7 @@ function Join() {
                     </div>
                     <div className="d-grid">
                         <button type="submit" className="btn btn-primary">
-                            Join
+                            Leave
                         </button>
                     </div>
                 </form>
@@ -86,4 +85,4 @@ function Join() {
     )
 }
 
-export default Join;
+export default Leave;

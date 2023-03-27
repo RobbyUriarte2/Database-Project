@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 function CreateEvent() {
   
-    const { user, permission } = useParams();
+    const { user, permission, universityID } = useParams();
 
     function RSOSelected() {
         if(document.getElementById("event").value === 'rso') {
@@ -24,10 +24,11 @@ function CreateEvent() {
     return (
        <>
        <div className="topnav">
-            <a href={`/home/${user}/${permission}`}>Dashboard</a>
-            <a  href={`/join/${user}/${permission}`}>Join RSO</a>
-            <a  href={`/create-rso/${user}/${permission}`}>Create RSO</a>
-            <a className="active" href={`/create-event/${user}/${permission}`}>Create Event</a>
+            <a href={`/home/${user}/${permission}/${universityID}`}>Dashboard</a>
+            <a  href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
+            <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
+            <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
+            <a className="active" href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card" style={{marginTop: '150px'}}>

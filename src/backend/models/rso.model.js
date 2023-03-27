@@ -41,6 +41,7 @@ RSO.AddUserFirst = async (rsoID, userID, data, result) => {
   });
 };
 
+
 RSO.AddUser = async (rsoID, userID, result) => {
   await sql.then((database) => {
     database.query(`INSERT INTO rso_user (rsoID, userID, isAdmin) VALUES ('${rsoID}','${userID}','${0}')`, (err, res) => {
@@ -73,7 +74,7 @@ RSO.GetAll = async (result) => {
   });
 };
 
-RSO.GetUniversity = async (universityID, result) => {
+RSO.getUniversity = async (universityID, result) => {
   await sql.then((database) => {
     database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID WHERE rso.universityID = ?", universityID, (err, res) => {
       if (err) {
@@ -127,6 +128,22 @@ RSO.update = async (newRSO, result) => {
 RSO.delete = async (rsoID, result) => {
   await sql.then((database) => {
     database.query("DELETE FROM rso WHERE rsoID = ?", rsoID, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("deleted rso: ", { rsoID:rsoID });
+      result(null, { rsoID:rsoID });
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+RSO.deleteUser = async (rsoID, userID, result) => {
+  await sql.then((database) => {
+    database.query("DELETE FROM rso_user WHERE rsoID = ? AND userID = ?", rsoID, userID, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

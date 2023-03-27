@@ -9,6 +9,7 @@ import RSO from "./Pages/Create RSO/RSO";
 import CreateEvent from "./Pages/Create Event/CreateEvent";
 import StudentSignUp from "./Pages/StudentSignUp/StudentSignUp";
 import SuperAdminSignUp from "./Pages/SuperAdminSignUp/SuperAdminSignUp";
+import Leave from "./Pages/Leave/Leave";
 
 function App() {
   return (
@@ -17,10 +18,11 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/home/:user/:permission" element={<HomePage />} />
-        <Route path="/join/:user/:permission" element={<Join />} />
-        <Route path="/create-rso/:user/:permission" element={<RSO />} />
-        <Route path="/create-event/:user/:permission" element={<CreateEvent />} />
+        <Route path="/home/:user/:permission/:universityID" element={<HomePage />} />
+        <Route path="/join/:user/:permission/:universityID" element={<Join />} />
+        <Route path="/leave/:user/:permission/:universityID" element={<Leave />} />
+        <Route path="/create-rso/:user/:permission/:universityID" element={<RSO />} />
+        <Route path="/create-event/:user/:permission/:universityID" element={<CreateEvent />} />
         <Route path="/student/:user" element={<StudentSignUp />} />
         <Route path="/super-admin/:user" element={<SuperAdminSignUp />} />
       </Routes>

@@ -7,6 +7,7 @@ function SignUp() {
 
     async function CreateUser(event) {
         event.preventDefault();
+        document.getElementById("errorMessage").style.display = "none";
 
         var type;
         var types = document.getElementsByName('account');
@@ -32,18 +33,22 @@ function SignUp() {
 
         await fetch('http://localhost:8080/api/user', props)
         .then(async (Success) => {
-            //console.log(await Success.json());
             let User = await Success.json();
-            switch(type) {
-                case "student": 
-                    navigate(`/student/${User.id}`)
+            if(User.id != null) {
+                switch(type) {
+                    case "student": 
+                        navigate(`/student/${User.id}`)
+                        break;
+                    case "super-admin":
+                    navigate(`/super-admin/${User.id}`)
                     break;
-                case "super-admin":
-                navigate(`/super-admin/${User.id}`)
-                break;
-
-                default: 
-            }   
+    
+                    default: 
+                } 
+            } else {
+                document.getElementById("errorMessage").style.display = "";
+                document.getElementById("errorMessage").innerText = "Email Already in Use";
+            }
             },
             (failure) => {
                 console.error(failure); 
@@ -53,6 +58,7 @@ function SignUp() {
 
     useEffect(()=>{
         document.getElementById("form").addEventListener("submit", function(event){CreateUser(event)});
+        document.getElementById("errorMessage").style.display = "none";
     });
     
     return (
@@ -101,6 +107,7 @@ function SignUp() {
                     <label for="super-admin">Super Admin</label>
                 </div>
                 <div className="d-grid">
+                    <span id="errorMessage" className="errorMessage"></span>
                 <button type="submit" className="btn btn-primary">
                     Sign Up
                 </button>
