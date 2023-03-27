@@ -13,7 +13,7 @@ module.exports = app => {
 
   router.get("/event", event.getEvent);
 
-  router.get("/allPrivate", event.getPrivate);
+  router.post("/allPrivate", event.getPrivate);
 
   router.get("/notVerifiedPrivate", event.getPrivateNotVerified);
 

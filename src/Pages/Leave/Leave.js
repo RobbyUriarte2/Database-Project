@@ -56,8 +56,8 @@ function Leave() {
        <>
        <div className="topnav">
             <a href={`/home/${user}/${permission}/${universityID}`}>Dashboard</a>
-            <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
-            <a  href={`/join/${user}/${permission}/${universityID}`}>Create RSO</a>
+            <a href={`/join/${user}/${permission}/${universityID}`}>Join RSO</a>
+            <a className="active" href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
             <a href="/sign-in">Log Out</a>

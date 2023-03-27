@@ -1,45 +1,72 @@
-import React from "react";
+import { useEffect, useState} from "react";
 import './HomePage.css';
 import { Card, ListGroup } from "react-bootstrap";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import moment from "moment/moment";
 
 function HomePage() {
     const { user, permission, universityID } = useParams();
 
-    const obj1 = {
-        Name: "Sprit Splash",
-        Date: "10/20/25",
-        Time: "5:35 PM",
-      };
-    const obj2 = {
-        Name: "Graduation",
-        Date: "10/20/25",
-        Time: "2:00 PM",
-    };
-    const obj3 = {
-        Name: "Basketball Game",
-        Date: "10/20/25",
-        Time: "2:00 PM",
-    };
-    const obj4 = {
-        Name: "Football Game",
-        Date: "10/20/25",
-        Time: "2:00 PM",
-    };
-    const obj5 = {
-        Name: "5K Run",
-        Date: "10/20/25",
-        Time: "2:00 PM",
-    };
-    let events = [obj1, obj2, obj3, obj4, obj5];
+    const [events, setEvents] = useState([]);
+
+    async function getPublicEvents() {
+        await fetch('http://localhost:8080/api/events/allPublic')
+        .then(async (Success) => {
+            let publicEvents = await Success.json();
+            console.log(publicEvents);
+            setEvents(publicEvents);
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+    }
+
+    async function getPrivateEvents() {
+        const props = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                universityID: universityID,
+                })
+        };
+        await fetch('http://localhost:8080/api/events/allPrivate', props)
+        .then(async (Success) => {
+            let events = await Success.json();
+            console.log(events);
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+    }
 
     useEffect(()=> {
-        if(permission === "student")
+        if(permission === "student") {
             document.getElementById("event").style.display = "none";
-    })
-    console.log()
+        }
+        getPublicEvents();
+        //getPrivateEvents();
+    },[])
+
+    function getDate(dateTime){
+        let date = Date(dateTime.split('T')[0]);
+        return moment(date).format('MMMM DD, YYYY');
+    }
+
+    function getTime(dateTime){
+        let time = dateTime.split('T')[1].split('.')[0].match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+        if (time.length > 1) { 
+            time = time.slice (1); 
+            time[5] = +time[0] < 12 ? ' AM' : ' PM'; 
+            time[0] = +time[0] % 12 || 12; 
+        }
+        let val = time.join ('');
+       
+        return val.split(" ")[0].substring(0,val.length-6) + " " + val.split(" ")[1];
+    }
+
     return (
         <>
         <div className="mainpages">
@@ -52,28 +79,25 @@ function HomePage() {
             <a href="/sign-in">Log Out</a>
         </div>
 
-        <div className="row row-cols-2 row-cols-sm-3 g-1" style={{marginTop: '10px'}}>
-          {Object.keys(events).map((key) => (
-                    <>
-                    
-                    <Card style={{ width: '18rem' , margin: '10px'}}>
-                        <Card.Body>
-                            <Card.Title>{events[key]["Name"]}</Card.Title>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Date: {events[key]["Date"]}</ListGroup.Item>
-                                <ListGroup.Item>Time: {events[key]["Time"]}</ListGroup.Item>
-                            </ListGroup>
-                        </Card.Body>
-                        <div className="d-grid">
-                        <button type="submit" className="btn btn-dark">
-                            View
-                        </button>
-                    </div>
-                    </Card>
-                    </>
-                ))}
+            <div className="row row-cols-2 row-cols-sm-3 g-1" style={{marginTop: '10px'}}>
+            {events?.res?.map(event => 
+                <Card style={{ width: '18rem' , margin: '10px'}}>
+                <Card.Body>
+                    <Card.Title>{event.name}</Card.Title>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                    </ListGroup>
+                </Card.Body>
+                <div className="d-grid">
+                <button type="submit" className="btn btn-dark">
+                    View
+                </button>
             </div>
-            </div>
+            </Card>
+            )}
+        </div>
+        </div>
         </>
     
 

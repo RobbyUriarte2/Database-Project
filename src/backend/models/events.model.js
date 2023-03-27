@@ -85,7 +85,7 @@ Event.createPrivate = async (insertID, userID, universityID, data, result) => {
   await sql.then((database) => {
 
   var superadminID;
-  database.query("SELECT DISTINCT users.userID from users where permission = 'superadmin' AND universityID =  ?", universityID, (err, res) => {
+  database.query("SELECT DISTINCT users.userID from users where permission = 'superadmin' AND universityID = ?", universityID, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

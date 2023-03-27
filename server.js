@@ -26,6 +26,7 @@ require("./src/backend/routes/users.routes.js")(app);
 require("./src/backend/routes/rating.routes.js")(app);
 require("./src/backend/routes/rso.routes.js")(app);
 require("./src/backend/routes/comment.routes.js")(app);
+require("./src/backend/routes/events.routes.js")(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {
