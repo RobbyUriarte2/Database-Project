@@ -143,7 +143,7 @@ RSO.delete = async (rsoID, result) => {
 
 RSO.deleteUser = async (rsoID, userID, result) => {
   await sql.then((database) => {
-    database.query("DELETE FROM rso_user WHERE rsoID = ? AND userID = ?", rsoID, userID, (err, res) => {
+    database.query(`DELETE FROM rso_user WHERE rsoID = '${rsoID}' AND userID = '${userID}'`,  (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
