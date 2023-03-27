@@ -90,6 +90,25 @@ RSO.getUniversity = async (universityID, result) => {
   });
 };
 
+//working on
+RSO.GetUserRSO = async (userID, result) => {
+  await sql.then((database) => {
+    database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID WHERE rso.universityID = ?", universityID, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("added rso user: ", {res});
+      result(null, {res});
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+
+
 RSO.update = async (newRSO, result) => {
   await sql.then((database) => {
     database.query("UPDATE rso SET ? WHERE rso.rsoID = ?", newRSO, newRSO.rsoID, (err, res) => {
