@@ -148,7 +148,7 @@ exports.create = (req, res) => {
       });
     }
   
-    RSO.delete(req.body.rsoID, req.body.userID, (err, data) => {
+    RSO.deleteUser(req.body.rsoID, req.body.userID, (err, data) => {
       if (err)
         res.status(500).send({
           message:

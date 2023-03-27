@@ -6,15 +6,15 @@ function Leave() {
     const { user, permission, universityID } = useParams();
     const [rsos, setRsos] = useState(null);
 
-    async function getRSOS() {
+    async function getRSOS(){
         const props = {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({
-              universityID: universityID
+                userID: user,
               })
         };
-        await fetch('http://localhost:8080/api/rso/university', props)
+        await fetch('http://localhost:8080/api/rso/userrso', props)
         .then(async (Success) => {
             setRsos(await Success.json());
             },
@@ -35,7 +35,7 @@ function Leave() {
               userID: user
               })
         };
-        await fetch('http://localhost:8080/api/rso/delete', props)
+        await fetch('http://localhost:8080/api/rso/deleteUser', props)
         .then(async (Success) => {
             console.log(await Success.json());
             },
