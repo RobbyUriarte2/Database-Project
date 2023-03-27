@@ -7,6 +7,7 @@ import MapPicker from "react-google-map-picker";
 function CreateEvent() {
   
     const { user, permission, universityID } = useParams();
+    const [rsos, setRsos] = useState([])
     const DefaultLocation = { lat: 28, lng: -81};
     const DefaultZoom = 10;
     const [defaultLocation] = useState(DefaultLocation);
@@ -31,9 +32,20 @@ function CreateEvent() {
         }
     }
 
+    async function getRSOS(){
+      await fetch('http://localhost:8080/api/rso/all', )
+      .then(async (Success) => {
+          setRsos(await Success.json());
+          },
+          (failure) => {
+              console.error(failure); 
+          },
+      );
+    }
+
     async function createEvent(event) {
       event.preventDefault();
-
+      
       let eventType = document.getElementById("event").value;
       let startDate = document.getElementById("startDate").value + " " + document.getElementById("startTime").value;
       let endDate = document.getElementById("endDate").value + " " + document.getElementById("endTime").value;
@@ -50,7 +62,8 @@ function CreateEvent() {
               longitude: location.lng,
               verified: false,
               eventStart: startDate,
-              eventEnd: endDate
+              eventEnd: endDate,
+              rsoID: document.getElementById("RSO-Name").value
             })
       };
       switch(eventType) {
@@ -79,7 +92,7 @@ function CreateEvent() {
           break;
         
         case "rso":
-          await fetch('http://localhost:8080/api/events/private', props)
+          await fetch('http://localhost:8080/api/events/rso', props)
           .then(async (Success) => {
               let event = await Success.json();
               console.log(event)
@@ -92,21 +105,13 @@ function CreateEvent() {
         
         default:
       }
-      // await fetch('http://localhost:8080/api/user/get', props)
-      // .then(async (Success) => {
-      //     let User = await Success.json();
-      //     AttachUniversity(User[0])
-      //     },
-      //     (failure) => {
-      //         console.error(failure); 
-      //     },
-      // );
   }
 
     useEffect(() =>{
       if(permission !== "super-admin") {
         document.getElementById("public").style.display = "none";
       }
+      getRSOS();
       document.getElementById("form").addEventListener("submit", function(event){createEvent(event)});
     },[])
 
@@ -120,7 +125,7 @@ function CreateEvent() {
             <a className="active" href={`/create-event/${user}/${permission}/${universityID}`}>Create Event</a>
             <a href="/sign-in">Log Out</a>
         </div>
-       <div className="auth-card" style={{marginTop: '275px'}}>
+       <div className="auth-card" style={{marginTop: '325px'}}>
             <div className="auth-content" >
                 <form id="form">
                     <h3>Create an Event</h3>
@@ -147,7 +152,7 @@ function CreateEvent() {
                 <label>RSO</label>
                 <select id="RSO-Name" name="RSO" className="select" >
                             <option value="">-- Select Event Type --</option>
-                            <option value="random">Random RSO</option>
+                            {rsos?.res?.map(rso => <option value={rso.rsoID}>{rso.NameRSO}</option>)}
                         </select>
               </div>
               <div className="mb-3">

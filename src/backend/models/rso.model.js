@@ -58,7 +58,7 @@ RSO.AddUser = async (rsoID, userID, result) => {
   });
 };
 
-RSO.GetAll = async (result) => {
+RSO.getAll = async (result) => {
   await sql.then((database) => {
     database.query("SELECT * FROM rso LEFT JOIN university ON rso.universityID = university.universityID", (err, res) => {
       if (err) {

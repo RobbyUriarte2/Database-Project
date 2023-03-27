@@ -61,15 +61,8 @@ exports.create = (req, res) => {
 
 
   exports.getAll = (req, res) => {
-    // Validate request
-    if (!req.body) {
-      res.status(400).send({
-        message: "Content can not be empty!"
-      });
-    }
     
     //might need to check for injections here, make sure what they send in is a valid string
-
     RSO.getAll((err, data) => {
       if (err)
         res.status(500).send({
