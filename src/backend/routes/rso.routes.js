@@ -17,5 +17,7 @@ module.exports = app => {
 
   router.delete("/deleteUser", rso.delete);
 
+  router.get("/userrso", rso.getAllFromUser);
+
   app.use('/api/rso', router);
 };
