@@ -115,7 +115,7 @@ exports.createPublic = (req, res) => {
       name:req.body.name,
       latitude:req.body.latitude,
       longitude:req.body.longitude,
-      verified:false,
+      verified: true,
       eventStart:req.body.eventStart,
       eventEnd:req.body.eventEnd,
       contactPhone:req.body.contactPhone,

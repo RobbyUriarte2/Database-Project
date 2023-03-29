@@ -33,7 +33,6 @@ function Login() {
         }
         else {
           navigate(`/home/${result.user.userID}/${result.user.permission}/${result.user.universityID}`)
-          console.log(result.user.permission);
           console.log("login success");
         }
         },

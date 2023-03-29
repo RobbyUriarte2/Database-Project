@@ -14,6 +14,7 @@ function RSO() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
           rsoID: null,
+          userID: user,
           NameRSO: document.getElementById("name").value,
           DescriptionRSO: document.getElementById("rso-description").value,
           universityID: universityID
@@ -36,8 +37,12 @@ function RSO() {
   useEffect(()=>{
     document.getElementById("form").addEventListener("submit", function(event){createRSO(event)});
     document.getElementById("message").style.display = "none";
-    if(permission === "student")
-            document.getElementById("event").style.display = "none";
+    if(permission === "student") {
+      document.getElementById("event").style.display = "none";
+    }
+    if(permission !== "super-admin") {
+      document.getElementById("approve-events").style.display = "none";
+    }
   },[]);  
 
     return (
@@ -48,6 +53,7 @@ function RSO() {
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a className="active" href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
+            <a href={`/approve-events/${user}/${permission}/${universityID}`} id="approve-events">Approve Events</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card">

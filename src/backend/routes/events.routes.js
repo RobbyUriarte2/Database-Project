@@ -15,13 +15,13 @@ module.exports = app => {
 
   router.post("/allPrivate", event.getPrivate);
 
-  router.get("/notVerifiedPrivate", event.getPrivateNotVerified);
+  router.post("/notVerifiedPrivate", event.getPrivateNotVerified);
 
   router.get("/allPublic", event.getPublic);
 
-  router.get("/notVerifiedPublic", event.getPublicNotVerified);
+  router.post("/notVerifiedPublic", event.getPublicNotVerified);
 
-  router.get("/rso", event.getRSO);
+  router.post("/getRsos", event.getRSO);
 
   router.post("/verify", event.verifyEvent);
 

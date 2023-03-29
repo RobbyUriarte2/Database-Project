@@ -63,7 +63,10 @@ function CreateEvent() {
               verified: false,
               eventStart: startDate,
               eventEnd: endDate,
-              rsoID: document.getElementById("RSO-Name").value
+              rsoID: document.getElementById("RSO-Name").value,
+              contactPhone: document.getElementById("phone").value,
+              email: document.getElementById("email").value,
+              description: document.getElementById("rso-description").value
             })
       };
       switch(eventType) {
@@ -111,6 +114,9 @@ function CreateEvent() {
       if(permission !== "super-admin") {
         document.getElementById("public").style.display = "none";
       }
+      if(permission !== "super-admin") {
+        document.getElementById("approve-events").style.display = "none";
+      }
       getRSOS();
       document.getElementById("form").addEventListener("submit", function(event){createEvent(event)});
     },[])
@@ -123,6 +129,7 @@ function CreateEvent() {
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a className="active" href={`/create-event/${user}/${permission}/${universityID}`}>Create Event</a>
+            <a href={`/approve-events/${user}/${permission}/${universityID}`} id="approve-events">Approve Events</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card" style={{marginTop: '325px'}}>

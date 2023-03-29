@@ -7,14 +7,16 @@ import moment from "moment/moment";
 function HomePage() {
     const { user, permission, universityID } = useParams();
 
-    const [events, setEvents] = useState([]);
+    const [publicEvents, setPublicEvents] = useState([]);
+    const [privateEvents, setPrivateEvents] = useState([]);
+    const [rsoEvents, setRsoEvents] = useState([]);
 
     async function getPublicEvents() {
         await fetch('http://localhost:8080/api/events/allPublic')
         .then(async (Success) => {
             let publicEvents = await Success.json();
             console.log(publicEvents);
-            setEvents(publicEvents);
+            setPublicEvents(publicEvents);
             },
             (failure) => {
                 console.error(failure); 
@@ -32,8 +34,29 @@ function HomePage() {
         };
         await fetch('http://localhost:8080/api/events/allPrivate', props)
         .then(async (Success) => {
-            let events = await Success.json();
-            console.log(events);
+            let privateEvents = await Success.json();
+            console.log(privateEvents);
+            setPrivateEvents(privateEvents);
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+    }
+
+    async function getRsoEvents() {
+        const props = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                userID: user,
+                })
+        };
+        await fetch('http://localhost:8080/api/events/getRsos', props)
+        .then(async (Success) => {
+            let rsoEvents = await Success.json();
+            console.log(rsoEvents);
+            setRsoEvents(rsoEvents);
             },
             (failure) => {
                 console.error(failure); 
@@ -45,8 +68,12 @@ function HomePage() {
         if(permission === "student") {
             document.getElementById("event").style.display = "none";
         }
-        getPublicEvents();
+        if(permission !== "super-admin") {
+            document.getElementById("approve-events").style.display = "none";
+        }
+        //getPublicEvents();
         //getPrivateEvents();
+        getRsoEvents();
     },[])
 
     function getDate(dateTime){
@@ -76,11 +103,44 @@ function HomePage() {
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
+            <a href={`/approve-events/${user}/${permission}/${universityID}`} id="approve-events">Approve Events</a>
             <a href="/sign-in">Log Out</a>
         </div>
 
             <div className="row row-cols-2 row-cols-sm-3 g-1" style={{marginTop: '10px'}}>
-            {events?.res?.map(event => 
+            {publicEvents?.res?.map(event => 
+                <Card style={{ width: '18rem' , margin: '10px'}}>
+                <Card.Body>
+                    <Card.Title>{event.name}</Card.Title>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                    </ListGroup>
+                </Card.Body>
+                <div className="d-grid">
+                <button type="submit" className="btn btn-dark">
+                    View
+                </button>
+            </div>
+            </Card>
+            )}
+            {privateEvents?.res?.map(event => 
+                <Card style={{ width: '18rem' , margin: '10px'}}>
+                <Card.Body>
+                    <Card.Title>{event.name}</Card.Title>
+                    <ListGroup variant="flush">
+                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                    </ListGroup>
+                </Card.Body>
+                <div className="d-grid">
+                <button type="submit" className="btn btn-dark">
+                    View
+                </button>
+            </div>
+            </Card>
+            )}
+            {rsoEvents?.res?.map(event => 
                 <Card style={{ width: '18rem' , margin: '10px'}}>
                 <Card.Body>
                     <Card.Title>{event.name}</Card.Title>

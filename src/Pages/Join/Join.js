@@ -49,8 +49,13 @@ function Join() {
       useEffect(()=> {
         getRSOS();
         document.getElementById("form").addEventListener("submit", function(event){joinRSO(event)});
-        if(permission === "student")
-            document.getElementById("event").style.display = "none";
+        if(permission === "student") {
+           document.getElementById("event").style.display = "none"; 
+        }
+         
+        if(permission !== "super-admin") {
+            document.getElementById("approve-events").style.display = "none";
+        }
     },[]);
     
     return (
@@ -61,6 +66,7 @@ function Join() {
             <a href={`/leave/${user}/${permission}/${universityID}`}>Leave RSO</a>
             <a  href={`/create-rso/${user}/${permission}/${universityID}`}>Create RSO</a>
             <a href={`/create-event/${user}/${permission}/${universityID}`} id="event">Create Event</a>
+            <a href={`/approve-events/${user}/${permission}/${universityID}`} id="approve-events">Approve Events</a>
             <a href="/sign-in">Log Out</a>
         </div>
        <div className="auth-card">

@@ -238,7 +238,8 @@ Event.getEvent = async (eventID, result) => {
 //update event
 Event.verifyEvent = async (eventID, result) => {
   await sql.then((database) => {
-    database.query("UPDATE event SET verified = true where eventID = ?", eventID, (err, res) => {
+    let queryStatement = `UPDATE event SET verified = true where eventID = ${eventID}`;
+    database.query(queryStatement, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
