@@ -11,6 +11,7 @@ import StudentSignUp from "./Pages/StudentSignUp/StudentSignUp";
 import SuperAdminSignUp from "./Pages/SuperAdminSignUp/SuperAdminSignUp";
 import Leave from "./Pages/Leave/Leave";
 import ApproveEvents from "./Pages/Approve Events/ApproveEvents";
+import ViewEvent from "./Pages/ViewEvent/ViewEvent";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/student/:user" element={<StudentSignUp />} />
         <Route path="/super-admin/:user" element={<SuperAdminSignUp />} />
         <Route path="/approve-events/:user/:permission/:universityID" element={<ApproveEvents />} />
+        <Route path="/view-event/:user/:permission/:universityID/:eventID" element={<ViewEvent />} />
       </Routes>
     </Router>
   );

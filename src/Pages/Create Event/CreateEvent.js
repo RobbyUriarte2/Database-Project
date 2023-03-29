@@ -45,6 +45,7 @@ function CreateEvent() {
 
     async function createEvent(event) {
       event.preventDefault();
+      document.getElementById("message").style.display = "none";
       
       let eventType = document.getElementById("event").value;
       let startDate = document.getElementById("startDate").value + " " + document.getElementById("startTime").value;
@@ -75,6 +76,8 @@ function CreateEvent() {
           .then(async (Success) => {
               let event = await Success.json();
               console.log(event)
+              document.getElementById("message").style.display = "";
+              document.getElementById("message").innerText = "Event Created!"
               },
               (failure) => {
                   console.error(failure); 
@@ -87,6 +90,8 @@ function CreateEvent() {
           .then(async (Success) => {
               let event = await Success.json();
               console.log(event)
+              document.getElementById("message").style.display = "";
+              document.getElementById("message").innerText = "Event Created!"
               },
               (failure) => {
                   console.error(failure); 
@@ -99,6 +104,8 @@ function CreateEvent() {
           .then(async (Success) => {
               let event = await Success.json();
               console.log(event)
+              document.getElementById("message").style.display = "";
+          document.getElementById("message").innerText = "Event Created!"
               },
               (failure) => {
                   console.error(failure); 
@@ -225,6 +232,7 @@ function CreateEvent() {
                             Create
                         </button>
                     </div>
+                    <span id="message"></span>
                 </form>
             </div>
         </div>

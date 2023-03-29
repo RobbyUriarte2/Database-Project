@@ -26,6 +26,7 @@ function Leave() {
 
       async function LeaveRSO(event) {
         event.preventDefault();
+        document.getElementById("message").style.display = "none";
         
         const props = {
           method: 'DELETE',
@@ -38,6 +39,9 @@ function Leave() {
         await fetch('http://localhost:8080/api/rso/deleteUser', props)
         .then(async (Success) => {
             console.log(await Success.json());
+            document.getElementById("message").style.display = "";
+            document.getElementById("message").innerText = "Rso Left!"
+            getRSOS();
             },
             (failure) => {
                 console.error(failure); 
@@ -84,6 +88,7 @@ function Leave() {
                             Leave
                         </button>
                     </div>
+                    <span id="message"></span>
                 </form>
             </div>
         </div>

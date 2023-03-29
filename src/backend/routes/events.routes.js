@@ -11,7 +11,7 @@ module.exports = app => {
 
   router.get("/", event.getAll);
 
-  router.get("/event", event.getEvent);
+  router.post("/event", event.getEvent);
 
   router.post("/allPrivate", event.getPrivate);
 

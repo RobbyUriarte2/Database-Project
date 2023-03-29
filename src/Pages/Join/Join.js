@@ -27,6 +27,7 @@ function Join() {
 
       async function joinRSO(event) {
         event.preventDefault();
+        document.getElementById("message").style.display = "none";
         
         const props = {
           method: 'POST',
@@ -39,6 +40,9 @@ function Join() {
         await fetch('http://localhost:8080/api/rso/addUser', props)
         .then(async (Success) => {
             console.log(await Success.json());
+            document.getElementById("message").style.display = "";
+            document.getElementById("message").innerText = "Rso Joined!"
+            getRSOS();
             },
             (failure) => {
                 console.error(failure); 
@@ -85,6 +89,7 @@ function Join() {
                             Join
                         </button>
                     </div>
+                    <span id="message"></span>
                 </form>
             </div>
         </div>

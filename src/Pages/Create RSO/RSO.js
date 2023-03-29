@@ -73,13 +73,13 @@ function RSO() {
               <div className="mb-3">
                 <label>Description</label>
                 <textarea id="rso-description" className="form-control" placeholder="Description..." rows="3" cols="40" required/>
-                <span id="message"></span>
               </div>
                     <div className="d-grid">
                         <button type="submit" className="btn btn-primary">
                             Create
                         </button>
                     </div>
+                    <span id="message"></span>
                 </form>
             </div>
         </div>

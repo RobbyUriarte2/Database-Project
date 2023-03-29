@@ -1,11 +1,14 @@
 import { useEffect, useState} from "react";
 import './HomePage.css';
 import { Card, ListGroup } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment/moment";
+import ViewEvent from "../ViewEvent/ViewEvent";
 
 function HomePage() {
+    const navigate = useNavigate();
     const { user, permission, universityID } = useParams();
+
 
     const [publicEvents, setPublicEvents] = useState([]);
     const [privateEvents, setPrivateEvents] = useState([]);
@@ -71,8 +74,8 @@ function HomePage() {
         if(permission !== "super-admin") {
             document.getElementById("approve-events").style.display = "none";
         }
-        //getPublicEvents();
-        //getPrivateEvents();
+        getPublicEvents();
+        getPrivateEvents();
         getRsoEvents();
     },[])
 
@@ -94,6 +97,10 @@ function HomePage() {
         return val.split(" ")[0].substring(0,val.length-6) + " " + val.split(" ")[1];
     }
 
+    function viewedEvent(eventID) {
+        navigate(`/view-event/${user}/${permission}/${universityID}/${eventID}`);
+    }
+
     return (
         <>
         <div className="mainpages">
@@ -108,49 +115,49 @@ function HomePage() {
         </div>
 
             <div className="row row-cols-2 row-cols-sm-3 g-1" style={{marginTop: '10px'}}>
-            {publicEvents?.res?.map(event => 
+            {publicEvents?.res?.map(publicEvent => 
                 <Card style={{ width: '18rem' , margin: '10px'}}>
                 <Card.Body>
-                    <Card.Title>{event.name}</Card.Title>
+                    <Card.Title>{publicEvent.name}</Card.Title>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
-                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getDate(publicEvent.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getTime(publicEvent.eventStart)}</ListGroup.Item>
                     </ListGroup>
                 </Card.Body>
                 <div className="d-grid">
-                <button type="submit" className="btn btn-dark">
+                <button type="button" className="btn btn-dark" onClick={() => viewedEvent(publicEvent.eventID)}>
                     View
                 </button>
             </div>
             </Card>
             )}
-            {privateEvents?.res?.map(event => 
+            {privateEvents?.res?.map(privateEvent => 
                 <Card style={{ width: '18rem' , margin: '10px'}}>
                 <Card.Body>
-                    <Card.Title>{event.name}</Card.Title>
+                    <Card.Title>{privateEvent.name}</Card.Title>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
-                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getDate(privateEvent.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getTime(privateEvent.eventStart)}</ListGroup.Item>
                     </ListGroup>
                 </Card.Body>
                 <div className="d-grid">
-                <button type="submit" className="btn btn-dark">
+                <button type="button" className="btn btn-dark" onClick={() => viewedEvent(privateEvent.eventID)}>
                     View
                 </button>
             </div>
             </Card>
             )}
-            {rsoEvents?.res?.map(event => 
+            {rsoEvents?.res?.map(rsoEvent => 
                 <Card style={{ width: '18rem' , margin: '10px'}}>
                 <Card.Body>
-                    <Card.Title>{event.name}</Card.Title>
+                    <Card.Title>{rsoEvent.name}</Card.Title>
                     <ListGroup variant="flush">
-                        <ListGroup.Item>Date: {getDate(event.eventStart)}</ListGroup.Item>
-                        <ListGroup.Item>Time: {getTime(event.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getDate(rsoEvent.eventStart)}</ListGroup.Item>
+                        <ListGroup.Item>{getTime(rsoEvent.eventStart)}</ListGroup.Item>
                     </ListGroup>
                 </Card.Body>
                 <div className="d-grid">
-                <button type="submit" className="btn btn-dark">
+                <button type="button" className="btn btn-dark" onClick={() => viewedEvent(rsoEvent.eventID)}>
                     View
                 </button>
             </div>
