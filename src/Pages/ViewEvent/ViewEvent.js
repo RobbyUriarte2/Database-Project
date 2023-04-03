@@ -8,6 +8,51 @@ function ViewEvent() {
 
     const [viewedEvent, setViewedEvent] = useState([]);
 
+    const [comments, setComments] = useState([]);
+    
+    const [ratings, setRatings] = useState([]);
+
+    async function getComments() {
+        const props = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                eventID: eventID,
+                })
+        };
+        await fetch('http://localhost:8080/api/comment/eventComments', props)
+        .then(async (Success) => {
+            let comment = await Success.json();
+            console.log(comment);
+            setComments(comment);
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+    }
+
+    async function getRatings() {
+        const props = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                eventID: eventID,
+                })
+        };
+        await fetch('http://localhost:8080/api/rating/eventRatings', props)
+        .then(async (Success) => {
+            let rating = await Success.json();
+            console.log(rating);
+            setRatings(rating);
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+    }
+    
+
     async function getEvent() {
         const props = {
             method: 'POST',
@@ -28,7 +73,34 @@ function ViewEvent() {
         );
     }
 
+    async function createComment(event) {
+        event.preventDefault();
+        document.getElementById("message").style.display = "none";
+        const props = {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+              eventID: eventID,
+              userID: user,
+              comment: document.getElementById("event-comment").value,
+              })
+        };
+        await fetch('http://localhost:8080/api/comment/', props)
+        .then(async (Success) => {
+            let comment = await Success.json();
+            console.log(comment);
+            document.getElementById("message").style.display = "";
+            document.getElementById("message").innerText = "Comment Added!"
+    
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+      }
+
     useEffect(()=> {
+        document.getElementById("form").addEventListener("submit", function(event){createComment(event)});
         if(permission === "student") {
             document.getElementById("event").style.display = "none";
         }
@@ -36,6 +108,8 @@ function ViewEvent() {
             document.getElementById("approve-events").style.display = "none";
         }
         getEvent();
+        getComments();
+        getRatings();
     },[])
 
     function getDate(dateTime){
@@ -86,7 +160,40 @@ function ViewEvent() {
             </div>
             </Card>
             )}
-        </div>
+            </div>
+
+            <p>comments</p>
+            <ListGroup variant="flush">
+            {comments?.res?.map(comment =>                     
+            <ListGroup.Item>{(comment.comment)}</ListGroup.Item>      
+            )}
+            </ListGroup>
+
+            <p>add a comment</p>
+            <form id="form">
+              <div className="mb-3">
+                <label>Comment</label>
+                <textarea id="event-comment" className="form-control" placeholder="Comment..." rows="3" cols="40" required/>
+              </div>
+                    <div className="d-grid">
+                        <button type="submit" className="btn btn-primary">
+                            Create
+                        </button>
+                    </div>
+                    <span id="message"></span>
+                </form>
+
+
+
+
+
+            <p>ratings</p>
+            <ListGroup variant="flush">
+            {ratings?.res?.map(rating =>                     
+            <ListGroup.Item>{(rating.rating)}</ListGroup.Item>      
+            )}
+            </ListGroup>
+            
         </div>
         </>
     
