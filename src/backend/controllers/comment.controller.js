@@ -33,7 +33,6 @@ exports.EventComment = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-
   commentObj.getEventComments(req.body.eventID, (err, data) => {
     if (err)
       res.status(500).send({

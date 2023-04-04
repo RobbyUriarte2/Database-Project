@@ -5,7 +5,7 @@ module.exports = app => {
 
   router.post("/", comment.create);
 
-  router.get("/eventcomments", comment.EventComment);
+  router.post("/eventcomments", comment.EventComment);
 
   router.get("/usercomments", comment.UserComments);
 

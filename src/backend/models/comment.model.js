@@ -26,7 +26,7 @@ commentObj.create = async (newComment, result) => {
 
 commentObj.getEventComments = async (eventID, result) => {
   await sql.then((database) => {
-    database.query("SELECT * FROM comments R WHERE R.eventID = ?", eventID, (err, res) => {
+    database.query(`SELECT * FROM comments WHERE comments.eventID = '${eventID}'`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

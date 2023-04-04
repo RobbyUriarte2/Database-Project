@@ -20,7 +20,7 @@ function ViewEvent() {
                 eventID: eventID,
                 })
         };
-        await fetch('http://localhost:8080/api/comment/eventComments', props)
+        await fetch('http://localhost:8080/api/comment/eventcomments', props)
         .then(async (Success) => {
             let comment = await Success.json();
             console.log(comment);
@@ -40,7 +40,7 @@ function ViewEvent() {
                 eventID: eventID,
                 })
         };
-        await fetch('http://localhost:8080/api/rating/eventRatings', props)
+        await fetch('http://localhost:8080/api/rating/eventratings', props)
         .then(async (Success) => {
             let rating = await Success.json();
             console.log(rating);
@@ -100,7 +100,7 @@ function ViewEvent() {
       }
 
     useEffect(()=> {
-        document.getElementById("form").addEventListener("submit", function(event){createComment(event)});
+        document.getElementById("commentform").addEventListener("submit", function(event){createComment(event)});
         if(permission === "student") {
             document.getElementById("event").style.display = "none";
         }
@@ -162,7 +162,7 @@ function ViewEvent() {
             )}
             </div>
 
-            <p>comments</p>
+            <p style={{backgroundColor:"white"}}>comments</p>
             <ListGroup variant="flush">
             {comments?.res?.map(comment =>                     
             <ListGroup.Item>{(comment.comment)}</ListGroup.Item>      
@@ -170,7 +170,7 @@ function ViewEvent() {
             </ListGroup>
 
             <p>add a comment</p>
-            <form id="form">
+            <form id="commentform">
               <div className="mb-3">
                 <label>Comment</label>
                 <textarea id="event-comment" className="form-control" placeholder="Comment..." rows="3" cols="40" required/>
@@ -193,6 +193,20 @@ function ViewEvent() {
             <ListGroup.Item>{(rating.rating)}</ListGroup.Item>      
             )}
             </ListGroup>
+
+            <p>add a rating</p>
+            <form id="ratingform">
+              <div className="mb-3">
+                <label>Rating</label>
+                <textarea id="event-comment" className="form-control" placeholder="Rating..." rows="3" cols="40" required/>
+              </div>
+                    <div className="d-grid">
+                        <button type="submit" className="btn btn-primary">
+                            Create
+                        </button>
+                    </div>
+                    <span id="message"></span>
+                </form>
             
         </div>
         </>

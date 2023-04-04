@@ -5,7 +5,7 @@ module.exports = app => {
 
   router.post("/", rating.create);
 
-  router.get("/eventratings", rating.EventRating);
+  router.post("/eventratings", rating.EventRating);
 
   router.get("/userratings", rating.UserRatings);
 
