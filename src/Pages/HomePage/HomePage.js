@@ -3,7 +3,7 @@ import './HomePage.css';
 import { Card, ListGroup } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment/moment";
-import ViewEvent from "../ViewEvent/ViewEvent";
+import { Timeline } from 'react-twitter-widgets'
 
 function HomePage() {
     const navigate = useNavigate();
@@ -163,6 +163,16 @@ function HomePage() {
             </div>
             </Card>
             )}
+
+            <Timeline
+            dataSource={{
+                sourceType: 'profile',
+                screenName: 'UCF_Facilities'
+            }}
+            options={{
+                height: '400',
+            }}
+            />
         </div>
         </div>
         </>
