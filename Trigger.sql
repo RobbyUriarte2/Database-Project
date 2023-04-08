@@ -29,7 +29,7 @@ DELIMITER $$
 CREATE TRIGGER CHECK_EVENT_TIME_LOCATION BEFORE INSERT ON event FOR EACH ROW BEGIN
 IF
 ((SELECT COUNT(*) from event WHERE event.latitude = NEW.latitude AND event.longitude = NEW.longitude AND 
-((event.eventStart <= NEW.eventStart AND event.eventEND >= NEW.eventSTART) OR (event.eventStart <= NEW.eventEND AND event.eventEND >= NEW.eventEND) OR (event.eventStart >= NEW.eventEND AND event.eventEND <= NEW.eventEND))
+((event.eventStart <= NEW.eventStart AND event.eventEnd >= NEW.eventStart) OR (event.eventStart <= NEW.eventEnd AND event.eventEnd >= NEW.eventEnd) OR (event.eventStart >= NEW.eventEnd AND event.eventEnd <= NEW.eventEnd))
 )) > 0
 THEN 
 SIGNAL SQLSTATE '45000'

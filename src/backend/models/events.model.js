@@ -252,6 +252,41 @@ Event.verifyEvent = async (eventID, result) => {
 });
 };
 
+Event.betterErrorLog = async (newEvent, result) => {
+  await sql.then((database) => {
+  database.query(`SELECT * FROM event WHERE event.latitude = '${newEvent.latitude}' AND event.longitude = '${newEvent.longitude}' AND ((event.eventStart <= '${newEvent.eventStart}' AND event.eventEND >= '${newEvent.eventStart}') OR (event.eventStart <= '${newEvent.eventEnd}' AND event.eventEND >= '${newEvent.eventEnd}') OR (event.eventStart >= '${newEvent.eventEnd}' AND event.eventEND <= '${newEvent.eventEnd}'))`, newEvent, (err, ress) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    result(null, { ress })
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+  return;
+};
+
+Event.checkRSOAdminStatus = async (userID, rsoID, result) => {
+  await sql.then((database) => {
+  database.query(`SELECT COUNT(*) as Count FROM rso_user WHERE rso_user.userID = '${userID}' AND rso_user.rsoID = '${rsoID}' AND rso_user.isAdmin = 1`, (err, ress) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if(ress[0].Count > 0)
+      result(null, { status: true })
+    else
+      result(null, {status: false})
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+  return;
+};
+
 //delete event
 
 

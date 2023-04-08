@@ -76,10 +76,25 @@ exports.createPublic = (req, res) => {
     // Save Event in the database
     Event.createEvent(event, (err, data) => {
       if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Event."
-        });
+        if(err.message == "No two events can happen at the same time and place")
+        {
+          //make events do that search and then send back the time and place that messed it up
+          Event.betterErrorLog(event, (err, data) => {
+            if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating the Event."
+            });
+          else res.status(500).send({message: `No two events are allowed at the same location at the same time. Error occured at event called: '${res[0].name}'`});
+          });
+        }
+        else
+        {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while creating the Event."
+          });
+        }
       else
       {
         Event.createPrivate(data.id, data.userID, data.universityID, data, (err, data) => {
@@ -122,29 +137,43 @@ exports.createPublic = (req, res) => {
       email:req.body.email,
       description:req.body.description
     });
-  
-    // Save Event in the database
-    Event.createEvent(event, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Event."
-        });
-      else
+
+    Event.checkRSOAdminStatus(event.userID, req.body.rsoID, (err, data) => {
+      if(data.status)
       {
-        Event.createRSO(data.id, data.userID, req.body.rsoID, data, (err, data) => {
+        Event.createEvent(event, (err, data) => {
           if (err)
             res.status(500).send({
               message:
                 err.message || "Some error occurred while creating the Event."
             });
-          else 
+          else
           {
-            res.send(data);
+            Event.createRSO(data.id, data.userID, req.body.rsoID, data, (err, data) => {
+              if (err)
+                res.status(500).send({
+                  message:
+                    err.message || "Some error occurred while creating the Event."
+                });
+              else 
+              {
+                res.send(data);
+              }
+            });
           }
         });
       }
+      else
+      {
+        res.status(500).send({
+          message: "The user is not an admin for the specified RSO"
+        });
+      }
+      
     });
+  
+    // Save Event in the database
+    
   };
 
 

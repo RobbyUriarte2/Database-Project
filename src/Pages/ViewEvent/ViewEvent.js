@@ -12,6 +12,8 @@ function ViewEvent() {
     
     const [ratings, setRatings] = useState([]);
 
+    const [sumRatings, setSumRatings] = useState([]);
+
     async function getComments() {
         const props = {
             method: 'POST',
@@ -99,8 +101,35 @@ function ViewEvent() {
         );
       }
 
+      async function createRating(event) {
+        event.preventDefault();
+        document.getElementById("message").style.display = "none";
+        const props = {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+              eventID: eventID,
+              userID: user,
+              rating: document.getElementById("event-rating").value,
+              })
+        };
+        await fetch('http://localhost:8080/api/rating/', props)
+        .then(async (Success) => {
+            let comment = await Success.json();
+            console.log(comment);
+            document.getElementById("message").style.display = "";
+            document.getElementById("message").innerText = "Rating Added!"
+    
+            },
+            (failure) => {
+                console.error(failure); 
+            },
+        );
+      }
+
     useEffect(()=> {
         document.getElementById("commentform").addEventListener("submit", function(event){createComment(event)});
+        document.getElementById("ratingform").addEventListener("submit", function(event){createRating(event)});
         if(permission === "student") {
             document.getElementById("event").style.display = "none";
         }
@@ -161,53 +190,55 @@ function ViewEvent() {
             </Card>
             )}
             </div>
-
-            <p style={{backgroundColor:"white"}}>comments</p>
-            <ListGroup variant="flush">
-            {comments?.res?.map(comment =>                     
-            <ListGroup.Item>{(comment.comment)}</ListGroup.Item>      
-            )}
-            </ListGroup>
-
-            <p>add a comment</p>
-            <form id="commentform">
-              <div className="mb-3">
-                <label>Comment</label>
-                <textarea id="event-comment" className="form-control" placeholder="Comment..." rows="3" cols="40" required/>
-              </div>
-                    <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
-                            Create
-                        </button>
-                    </div>
-                    <span id="message"></span>
-                </form>
-
-
-
-
-
-            <p>ratings</p>
-            <ListGroup variant="flush">
-            {ratings?.res?.map(rating =>                     
-            <ListGroup.Item>{(rating.rating)}</ListGroup.Item>      
-            )}
-            </ListGroup>
-
-            <p>add a rating</p>
-            <form id="ratingform">
-              <div className="mb-3">
-                <label>Rating</label>
-                <textarea id="event-comment" className="form-control" placeholder="Rating..." rows="3" cols="40" required/>
-              </div>
-                    <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
-                            Create
-                        </button>
-                    </div>
-                    <span id="message"></span>
-                </form>
             
+            <div style={{backgroundColor:"white"}}>
+                <p style={{backgroundColor:"white"}}>comments</p>
+                <ListGroup variant="flush">
+                {comments?.res?.map(comment =>                     
+                <ListGroup.Item>{(comment.comment)}</ListGroup.Item>      
+                )}
+                </ListGroup>
+
+                <p>add a comment</p>
+                <form id="commentform">
+                <div className="mb-3">
+                    <label>Comment</label>
+                    <textarea id="event-comment" className="form-control" placeholder="Comment..." rows="3" cols="40" required/>
+                </div>
+                        <div className="d-grid">
+                            <button type="submit" className="btn btn-primary">
+                                Create
+                            </button>
+                        </div>
+                        <span id="message"></span>
+                    </form>
+
+
+                    <br></br>
+
+
+                <p>ratings</p>
+                <ListGroup variant="flush">
+                {ratings?.res?.map(rating =>                     
+                <ListGroup.Item>{(rating.rating)}</ListGroup.Item>      
+                )}
+                </ListGroup>
+
+                <p>add a rating</p>
+                <form id="ratingform">
+                <div className="mb-3">
+                    <label>Rating</label>
+                    <input type = "number" id="event-rating" className="form-control" placeholder="Rating..." rows="3" cols="40" required/>
+                </div>
+                        <div className="d-grid">
+                            <button type="submit" className="btn btn-primary">
+                                Create
+                            </button>
+                        </div>
+                        <span id="message"></span>
+                    </form>
+                
+            </div>
         </div>
         </>
     
