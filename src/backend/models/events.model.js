@@ -270,12 +270,14 @@ Event.betterErrorLog = async (newEvent, result) => {
 
 Event.checkRSOAdminStatus = async (userID, rsoID, result) => {
   await sql.then((database) => {
-  database.query(`SELECT COUNT(*) as Count FROM rso_user WHERE rso_user.userID = '${userID}' AND rso_user.rsoID = '${rsoID}' AND rso_user.isAdmin = 1`, (err, ress) => {
+  database.query(`SELECT COUNT(*) as Count FROM rso_user WHERE rso_user.userID = '${userID}' AND rso_user.rsoID = '${rsoID}' AND rso_user.isAdmin = True`, (err, ress) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
+    console.log(ress[0]);
+    console.log(ress[0].Count);
     if(ress[0].Count > 0)
       result(null, { status: true })
     else

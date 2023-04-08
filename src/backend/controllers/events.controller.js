@@ -27,10 +27,25 @@ exports.createPublic = (req, res) => {
     // Save Event in the database
     Event.createEvent(event, (err, data) => {
       if (err)
+      if(err.message == "No two events can happen at the same time and place")
+      {
+        //make events do that search and then send back the time and place that messed it up
+        Event.betterErrorLog(event, (err, data) => {
+          if (err)
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while creating the Event."
+          });
+          else res.status(500).send({message: `No two events are allowed at the same location at the same time. Error occured at event called: '${data.ress[0].name}' with location of latitude: '${data.ress[0].latitude}' and longitude: '${data.ress[0].longitude}' starting at: '${data.ress[0].eventStart}' and ending at: '${data.ress[0].eventEnd}'`});
+        });
+      }
+      else
+      {
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Event."
         });
+      }
       else 
       {
         Event.createPublic(data.id, data.userID, data.universityID, data, (err, data) => {
@@ -85,7 +100,7 @@ exports.createPublic = (req, res) => {
               message:
                 err.message || "Some error occurred while creating the Event."
             });
-          else res.status(500).send({message: `No two events are allowed at the same location at the same time. Error occured at event called: '${res[0].name}'`});
+            else res.status(500).send({message: `No two events are allowed at the same location at the same time. Error occured at event called: '${data.ress[0].name}' with location of latitude: '${data.ress[0].latitude}' and longitude: '${data.ress[0].longitude}' starting at: '${data.ress[0].eventStart}' and ending at: '${data.ress[0].eventEnd}'`});
           });
         }
         else
@@ -143,10 +158,28 @@ exports.createPublic = (req, res) => {
       {
         Event.createEvent(event, (err, data) => {
           if (err)
-            res.status(500).send({
-              message:
-                err.message || "Some error occurred while creating the Event."
-            });
+          {
+            if(err.message == "No two events can happen at the same time and place")
+            {
+            //make events do that search and then send back the time and place that messed it up
+              Event.betterErrorLog(event, (err, data) => {
+                console.log(data)
+                if (err)
+                res.status(500).send({
+                  message:
+                    err.message || "Some error occurred while creating the Event."
+                });
+              else res.status(500).send({message: `No two events are allowed at the same location at the same time. Error occured at event called: '${data.ress[0].name}' with location of latitude: '${data.ress[0].latitude}' and longitude: '${data.ress[0].longitude}' starting at: '${data.ress[0].eventStart}' and ending at: '${data.ress[0].eventEnd}'`});
+              });
+            }
+            else
+            {
+              res.status(500).send({
+                message:
+                  err.message || "Some error occurred while creating the Event."
+              });
+            }
+          }
           else
           {
             Event.createRSO(data.id, data.userID, req.body.rsoID, data, (err, data) => {
