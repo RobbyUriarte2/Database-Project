@@ -141,7 +141,7 @@ Event.getAll = async (result) => {
 //gets all private events associate with a university (use)
 Event.getAllPrivateEvents = async (universityID, result) => {
   await sql.then((database) => {
-    database.query(`SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, privateEvent.adminID, privateEvent.superadminID FROM event inner join privateEvent WHERE event.universityID = '${universityID}' AND event.verified = 1`, (err, res) => {
+    database.query(`SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, privateEvent.adminID, privateEvent.superadminID FROM event inner join privateEvent on event.eventID = privateEvent.eventID WHERE event.universityID = '${universityID}' AND event.verified = 1`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -158,7 +158,7 @@ Event.getAllPrivateEvents = async (universityID, result) => {
 //gets all private events not verified in a university (will need to be approved by the super admin of the uni)
 Event.getAllPrivateEventsNotVerified = async (universityID, result) => {
   await sql.then((database) => {
-    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, privateEvent.adminID, privateEvent.superadminID FROM event inner join privateEvent WHERE event.verified = 0 AND event.universityID = ?", universityID, (err, res) => {
+    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, privateEvent.adminID, privateEvent.superadminID FROM event inner join privateEvent on event.eventID = privateEvent.eventID WHERE event.verified = 0 AND event.universityID = ?", universityID, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -174,7 +174,7 @@ Event.getAllPrivateEventsNotVerified = async (universityID, result) => {
 //gets all public events
 Event.getAllPublicEvents = async (result) => {
   await sql.then((database) => {
-    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, publicEvent.adminID, publicEvent.superadminID FROM event inner join publicEvent WHERE event.verified = 1", (err, res) => {
+    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, publicEvent.adminID, publicEvent.superadminID FROM event inner join publicEvent on event.eventID = publicEvent.eventID WHERE event.verified = 1", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -190,7 +190,7 @@ Event.getAllPublicEvents = async (result) => {
 //gets all public events not verified (will need to be verified by superadmin of the uni)
 Event.getAllPublicEventsNotVerified = async (universityID, result) => {
   await sql.then((database) => {
-    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, publicEvent.adminID, publicEvent.superadminID FROM event inner join publicEvent WHERE event.verified = 0 AND event.universityID = ?", universityID, (err, res) => {
+    database.query("SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd,event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, publicEvent.adminID, publicEvent.superadminID FROM event inner join publicEvent on event.eventID = publicEvent.eventID WHERE event.verified = 0 AND event.universityID = ?", universityID, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -206,7 +206,7 @@ Event.getAllPublicEventsNotVerified = async (universityID, result) => {
 //gets all the events of the RSOs for which the user is a member
 Event.getAllRSOEvents = async (userID, result) => {
   await sql.then((database) => {
-    database.query(`SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd, event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, rsoEvent.adminID, rsoEvent.rsoID FROM event inner join rsoEvent WHERE EXISTS(select distinct rso_user.userID from rso_user WHERE rso_user.userID = '${userID}' AND rso_user.rsoID = rsoEvent.rsoID)`, (err, res) => {
+    database.query(`SELECT DISTINCT event.eventID, event.contactPhone, event.description, event.email,event.eventStart, event.eventEnd, event.universityID, event.userID, event.category, event.name, event.latitude, event.longitude, event.verified, rsoEvent.adminID, rsoEvent.rsoID FROM event inner join rsoEvent on event.eventID = rsoEvent.eventID WHERE EXISTS(select distinct rso_user.userID from rso_user WHERE rso_user.userID = '${userID}' AND rso_user.rsoID = rsoEvent.rsoID)`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
