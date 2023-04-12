@@ -9,7 +9,7 @@ module.exports = app => {
 
   router.get("/userratings", rating.UserRatings);
 
-  router.put("/update", rating.update);
+  router.post("/update", rating.update);
 
   router.delete("/delete", rating.delete);
 

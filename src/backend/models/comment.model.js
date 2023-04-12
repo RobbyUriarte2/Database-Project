@@ -76,7 +76,7 @@ commentObj.delete = async (commentID, result) => {
 
 commentObj.update = async (newComment, result) => {
   await sql.then((database) => {
-    database.query("UPDATE comments SET ? WHERE commentID = ?", newComment, newComment.commentID, (err, res) => {
+    database.query(`UPDATE comments SET ? WHERE commentID = '${newComment.commentID}'`, newComment, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

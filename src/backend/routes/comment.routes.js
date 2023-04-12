@@ -9,7 +9,7 @@ module.exports = app => {
 
   router.get("/usercomments", comment.UserComments);
 
-  router.put("/update", comment.update);
+  router.post("/update", comment.update);
 
   router.delete("/delete", comment.delete);
 

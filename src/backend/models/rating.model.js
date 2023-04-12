@@ -77,7 +77,7 @@ ratingObj.delete = async (ratingID, result) => {
 
 ratingObj.update = async (newRating, result) => {
   await sql.then((database) => {
-    database.query("UPDATE ratings SET ? WHERE ratingID = ?", newRating, newRating.ratingID, (err, res) => {
+    database.query(`UPDATE ratings SET ? WHERE ratingID = '${newRating.ratingID}'`, newRating, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
