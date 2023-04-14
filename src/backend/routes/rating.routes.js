@@ -13,5 +13,7 @@ module.exports = app => {
 
   router.delete("/delete", rating.delete);
 
+  router.post("/usereventratings", rating.UserEventRatings);
+
   app.use('/api/rating', router);
 };

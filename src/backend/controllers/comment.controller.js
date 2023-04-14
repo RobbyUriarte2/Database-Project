@@ -65,6 +65,25 @@ exports.UserComments = (req, res) => {
   });
 };
 
+
+exports.UserEventComments = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  commentObj.getAllUserEventComments(req.body.userID, req.body.eventID, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Event."
+      });
+    else res.send(data);
+  });
+};
+
 exports.update = (req, res) => {
   // Validate request
   if (!req.body) {

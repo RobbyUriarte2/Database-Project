@@ -93,5 +93,22 @@ ratingObj.update = async (newRating, result) => {
 };
 
 
+ratingObj.getAllUserEventRatings = async (userID, eventID, result) => {
+  await sql.then((database) => {
+    database.query(`SELECT * FROM ratings WHERE ratings.userID = '${userID}' AND ratings.eventID = '${eventID}'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+    
+      result(null, {res});
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+
 
 module.exports = ratingObj;

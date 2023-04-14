@@ -91,4 +91,20 @@ commentObj.update = async (newComment, result) => {
   });
 };
 
+commentObj.getAllUserEventComments = async (userID, eventID, result) => {
+  await sql.then((database) => {
+    database.query(`SELECT * FROM comments WHERE comments.userID = '${userID}' AND comments.eventID = '${eventID}'`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+    
+      result(null, {res});
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
 module.exports = commentObj;

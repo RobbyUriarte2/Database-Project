@@ -13,5 +13,7 @@ module.exports = app => {
 
   router.delete("/delete", comment.delete);
 
+  router.post("/usereventcomments", comment.UserEventComments);
+
   app.use('/api/comment', router);
 };
